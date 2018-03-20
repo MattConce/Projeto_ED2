@@ -1,0 +1,17 @@
+14
+E main 0
+B
+58fa0004
+1ffafd00
+31fdfd08
+* 72 getchar
+2900ff0a
+4a000008
+1f00fd00
+31fdfd08
+58fa0004
+1ffafd00
+31fdfd08
+* 72 puts
+4900000c
+fe000000
