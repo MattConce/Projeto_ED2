@@ -17,6 +17,9 @@ main      XOR     k, k, k
           LDOU    c, c, 0        *lê o argumentos da linha de comando
 read      SETW    rX, 1
           INT     #80
+          CMPU    $0, rA, 0      *verifica se chegou ao final do arquivo
+          JN      $0, end
+          XOR     $0, $0, $0
           CMPU    $0, rA, 10
           JZ      $0, write
           OR      ln, rA, 0
@@ -29,13 +32,14 @@ continue  ADDU    k, k, 1
           JMP     read
 write     SETW    rX, 2
           SUBU    N, c, n           *calcula N
-          ADDU    N, N, 1           *calcula N
+          ADDU    N, N, 1
+          SUBU    n, n, 1           *calcula N
           SUBU    k, k, k           *volta ao início do vetor
 next      LDBU    rY, k, 0
           CMPU    $0, rY, 32
           JNZ     $0, n_space
           SETW    rY, 32
-          SUBU    n, n, 1
+          XOR     s, s, s
           DIVU    s, N, n
           ADDU    s, s, 1
 next_s    INT     #80
