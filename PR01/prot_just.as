@@ -10,7 +10,7 @@
         i     IS      $4
         c     IS      $5       *argumento da linha de comando
         N     IS      $6
-        s     IS      $7
+        s     IS      $7        
 
 main      XOR     k, k, k
           SUBU    c, rSP, 16
@@ -31,6 +31,7 @@ read      SETW    rX, 1
 continue  ADDU    k, k, 1
           JMP     read
 write     SETW    rX, 2
+          OR      i, k, 0
           SUBU    N, c, n           *calcula N
           ADDU    N, N, 1
           SUBU    n, n, 1           *calcula N
@@ -49,6 +50,8 @@ next_s    INT     #80
 n_space   XOR     $0, $0, $0
           INT     #80
           ADDU    k, k, 1
+          CMPU    $0, i, k
+          JZ      $0, end
           JMP     next
 end       SETW    rY, 10
           INT     #80
