@@ -1,5 +1,9 @@
+*****Programa que adiciona espaços entre caracteres*****
+********************************************************
         EXTERN  main
-        *variáveis
+
+****Variáveis*******************************************
+
         k     IS      $1       *contador de caracteres marcará também o indice do vetor de chars
         n     IS      $2       *futuro contador de palavras
         ln    IS      $3
@@ -18,6 +22,8 @@ write   SETW    rX, 2
         OR      i, k, 0           *condição de parada
         SUBU    k, k, k           *volta ao início do vetor
 next    LDBU    rY, k, 0
+        INT     #80
+        SETW    rY, 32
         INT     #80
         ADDU    k, k, 1
         XOR     $0, $0, $0
