@@ -1,9 +1,8 @@
        EXTERN puts
 s      IS     $0
 puts   SUBU   s,rSP,16
-       LDOU   s,s, 0
        SETW   rX,2
-write  LDB    rY,s,0
+write  LDB    rY, s,0
        JZ     rY,end
        INT    #80
        ADDU   s,s,1
