@@ -148,13 +148,17 @@ void formatLine(char* line, int c) {
   else {
     while (s <= S) {
       N = (strlen(line) - 1);
+      // printf("%d\n", N);
       for (i = N; i >= 0; i--) {
 
         if (s > S) break;
         if(line[i] == ' ') {
-          line = insertchar(line, i + loop, ' ');
+          // printf("Inserindo espaço em i = %d\n",i);
+          line = insertchar(line, i - loop + 1, ' ');
           ++s;
+          i  -= (loop+1);
         }
+        // puts(line);
       }
       loop++;
     }
