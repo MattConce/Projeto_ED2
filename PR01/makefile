@@ -1,23 +1,22 @@
 ##############___MAKEFILE___################
-J_SOURCE=just.maco puts.maco getchar.maco
-all: just teste
-#chama o ligador
-just: $(J_SOURCE)
-	./maclk just.mac $(J_SOURCE)
 
-teste: teste_nao_modularizado.maco
-	./maclk teste_nao_modularizado.mac teste_nao_modularizado.maco
-#gera o arquivo de código objeto correspondente
+fil = $(wildcard test*.as)
+src := $(wildcard *.as)
+src := $(filter-out $(fil), $(src))
+obj = $(src:.as=.maco)
+FILE?=just
 
-just.maco:
-	./macas just.as
-puts.maco:
-	./macas puts.as
-getchar.maco:
-	./macas getchar.as
-teste_nao_modularizado.maco:
-	./macas teste_nao_modularizado.as
-run:
-	./macsim teste_nao_modularizado.mac < teste.in
+all: $(obj)
+	./maclk just.mac $(obj)
+
+other: $(FILE).maco
+	./maclk $(FILE).mac $^
+
+%.maco: %.as
+	./macas $^
+
+%.mac: %.maco
+	./maclk $@ $^
+
 clean:
-	rm -rf *.maco just.mac teste_nao_modularizado.mac
+	rm -rf *.maco *.mac
