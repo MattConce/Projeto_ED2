@@ -2,18 +2,39 @@
 
 
 
+<<<<<<< HEAD
           text    IS    $1
+=======
+          text    IS    $1      *vetor guarda o texto inteiro
+>>>>>>> 5480bc262e1c80098261faca72359da55cc6fef3
           c       IS    $2
           n       IS    $3
           tam     IS    $4
           p       IS    $5
+<<<<<<< HEAD
           len     IS    $6
+=======
+          ln      IS    $6      *vetor de linhas
+          pr      IS    $7
+          d1      IS    $8
+          d2      IS    $9
+          tmp     IS    $10      *retgistrador temporario
+          w       IS    $11      *vetor de palavras
+          tmp1    IS    $12
+>>>>>>> 5480bc262e1c80098261faca72359da55cc6fef3
 
 *lê o texto inteiro e armazena em um vetor*
 
 main          XOR     text, text, text
               SUBU    c, rSP, 16
               LDOU    c, c, 0
+<<<<<<< HEAD
+=======
+              LDBU    d1, c, 0
+              LDBU    d2, c, 1
+              STBU    c, d2, 0
+              STBU    c, d1, 1
+>>>>>>> 5480bc262e1c80098261faca72359da55cc6fef3
 read          SETW    rX, 1
               INT     #80
               CMPU    $0, rA, 0
@@ -25,6 +46,7 @@ start         OR      tam, text, 0
               SUBU    text, text, text
 while1        CMPU    $0, text, tam
               JZ      $0, end
+<<<<<<< HEAD
               PUSH    text
               PUSH    tam
               CALL    paragraph
@@ -42,8 +64,45 @@ while1        CMPU    $0, text, tam
               PUSH    c
               PUSH    len
               CALL    just
+=======
+              JMP     paragraph
+save_p        SETW    rX, 2
+              SETW    rY, 10
+              INT     #80
+              SETW    rX, 2
+              SETW    rY, 10
+              INT     #80
+              JMP     just
+>>>>>>> 5480bc262e1c80098261faca72359da55cc6fef3
 while2        CMPU    $0, text, 10
               JNZ     $0, while1
               ADDU    text, text, 1
               JMP     while2
+<<<<<<< HEAD
 end           int     1
+=======
+end           INT     1
+
+paragraph    CMPU    $0, text, tam
+             JZ      $0, ret_p
+             CMPU    $0, text, 10
+             JNZ     $0, continue
+             ADDU    tmp, text, 1
+             CMPU    $0, tmp, 10
+             JZ      $0, ret_p
+             LDBU    p, text, 0
+             ADDU    text, text, 1
+             ADDU    p, p, 1
+ret_p        SETB    p, 0x00
+             ADDU    p, p, 1
+             JMP     save_p
+
+just         JMP    breakInWords
+             OR     tmp, w, 0
+             SUBU   w, w, w
+             JMP    breakInLines
+             CMPU   $0, ln, 0x00
+             JZ     $0, ret_just
+             JMP    formatLine
+ret_just     JMP    while1
+>>>>>>> 5480bc262e1c80098261faca72359da55cc6fef3
