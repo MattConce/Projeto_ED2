@@ -10,7 +10,8 @@
         i     IS      $4
         c     IS      $5       *argumento da linha de comando
         N     IS      $6
-        s     IS      $7        
+        s     IS      $7
+     text     IS      $8   
 
 main      XOR     k, k, k
           SUBU    c, rSP, 16
