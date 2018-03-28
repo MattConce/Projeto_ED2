@@ -1,10 +1,10 @@
             EXTERN  atoi
-int         IS      $0
-b           IS      $1
-val         IS      $2
-char        IS      $3
-p           IS      $4
-i           IS      $5
+int         IS      $1
+b           IS      $2
+val         IS      $3
+char        IS      $4
+p           IS      $5
+i           IS      $6
 atoi        XOR     int, int, int
             XOR     char, char, char
             XOR     val, val, val
