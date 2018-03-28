@@ -14,6 +14,9 @@
           tmp     IS    $10      *retgistrador temporario
           w       IS    $11      *vetor de palavras
           tmp1    IS    $12
+          bol     IS    $13
+          i       IS    $14
+          j       IS    $15
 
 *lê o texto inteiro e armazena em um vetor*
 
@@ -49,25 +52,27 @@ while2        CMPU    $0, text, 10
               JMP     while2
 end           INT     1
 
-paragraph    CMPU    $0, text, tam
-             JZ      $0, ret_p
-             CMPU    $0, text, 10
-             JNZ     $0, continue
-             ADDU    tmp, text, 1
-             CMPU    $0, tmp, 10
-             JZ      $0, ret_p
-             LDBU    p, text, 0
-             ADDU    text, text, 1
-             ADDU    p, p, 1
-ret_p        SETB    p, 0x00
-             ADDU    p, p, 1
-             JMP     save_p
+paragraph     CMPU    $0, text, tam
+              JZ      $0, ret_p
+              CMPU    $0, text, 10
+              JNZ     $0, continue
+              ADDU    tmp, text, 1
+              CMPU    $0, tmp, 10
+              JZ      $0, ret_p
+              LDBU    p, text, 0
+              ADDU    text, text, 1
+              ADDU    p, p, 1
+ret_p         SETB    p, 0x00
+              ADDU    p, p, 1
+              JMP     save_p
 
-just         JMP    breakInWords
-             OR     tmp, w, 0
-             SUBU   w, w, w
-             JMP    breakInLines
-             CMPU   $0, ln, 0x00
-             JZ     $0, ret_just
-             JMP    formatLine
-ret_just     JMP    while1
+just          JMP    breakInWords
+              OR     tmp, w, 0
+              SUBU   w, w, w
+              JMP    breakInLines
+              CMPU   $0, ln, 0x00
+              JZ     $0, ret_just
+              JMP    formatLine
+ret_just      JMP    while1
+
+breakInWords
