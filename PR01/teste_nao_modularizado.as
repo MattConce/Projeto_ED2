@@ -32,4 +32,4 @@ next    LDBU    rY, k, 0
         JMP     next
 end     SETW    rY, 10
         INT     #80
-        INT     0
+INT 0
