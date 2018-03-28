@@ -14,14 +14,12 @@ atoi        XOR     int, int, int
             SUBU    val, rSP, 16
             LDOU    val, val, 0
 find_p      LDBU    char, val, p
-            INT     #DB0303
             CMP     b, char, 0
             JZ      b, found_p
             ADD     p, p, 1
             JMP     find_p
 found_p     SUB     p, p, 1
-            INT     #DB0404
-loop        LDBU    char, val, p
+convert     LDBU    char, val, p
             SUB     char, char, 48
             MUL     char, char, i
             ADD     int, int, char
@@ -29,5 +27,5 @@ loop        LDBU    char, val, p
             SUB     p, p, 1
             CMP     b, p, 0
             JN      b, end
-            JMP     loop
+            JMP     convert
 end         RET     1
