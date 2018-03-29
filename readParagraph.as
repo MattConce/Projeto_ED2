@@ -1,4 +1,4 @@
-        EXTERN readParagraph
+EXTERN readParagraph
 
                       b             IS      $0
                       bp            IS      $1
