@@ -1,53 +1,66 @@
-EXTERN  main
-
-
-MAX         IS      10000
-MAX_W       IS      500
-MAX_l       IS      300
+EXTERN  just
 
 sav         IS      $0
 b           IS      $1
 c           IS      $2
-text        IS      $3
+m           IS      $3
 n           IS      $4
-curr        IS      $5
-tam         IS      $6
+k           IS      $5
+N           IS      $6
+kp          IS      $7
+a1          IS      $9
 
 
-main        SUBU    c, rSP, 16
+just        XOR     b, b, b
+            SETW    m, 1
+            XOR     oc, oc, oc
+            XOR     a1, a1, a1
+
+            SUBU    c, rSP, 16
             LDOU    c, c, 0
-            PUSH    c
-            SAVE    sav, $1, $5
-            CALL    atoi
-            REST    sav, $1, $5
-            OR      c, rA, 0
 
-            XOR     n, n, n
-            SETW    text, 300
-            CALL    read
-            SUB     text, text, n
-            OR      tam, n, 0
-            XOR     n, n, n
+readPrint   XOR     n, n, n
+            XOR     N, N, N
 
-while1      CMP     b, n, tam
+            CALL    readln
+            OR      kp, rA, 0
+
+            CMP     b, kp, #fffffffffffffffe
             JZ      b, end
-            PUSH    text
-            PUSH    p
-            SAVE    sav, $1, $6
-            CALL    readParagraph
-            REST    sav, $1, $6
-            SETW    rX, 2
-            SETW    rY, 10
-            INT     #80
-            INT     #80
-            PUSH    p
-            PUSH    c
-            SAVE    sav, $1, $10
-            CALL    justificador
-            REST    sav, $1, $10
-while2      CMPU    b, text, 10
-            JNZ     b, while1
-            ADDU    text, text, 1
-            JMP     while2
+            CMP     b, kp, #ffffffffffffffff
+            JZ      b, eof
 
-end         INT     0
+            CMP     b, n, 0
+            JNZ     b, nempty
+            SETW    N, 0
+            SETW    rR, 0
+            PUSH    n
+            PUSH    N
+            PUSH    rR
+            CALL    println
+            JMP     readPrint
+
+nempty      CMP     b, kp, 0
+            JZ      lastln
+            SUB     N, c, k
+            DIV     N, N, n
+            JMP     println
+lastln      SETW    N, 1
+            SETW    rR, 0
+println     PUSH    N
+            PUSH    n
+            PUSH    rR
+            CALL    println
+            JMP     readPrint
+
+eof         SETW    N, 1
+            SETW    rR, 0
+            PUSH    N
+            PUSH    n
+            PUSH    rR
+            CALL    println
+
+end         SETW    rX, 2
+            SETW    rY, 0
+            INT     #80
+            RET     1
