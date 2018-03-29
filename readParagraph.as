@@ -7,24 +7,25 @@ EXTERN readParagraph
                       ret           IS      rA
                       ret2          IS      $4
                       tmp           IS      $5
+                      text          IS      $100
 
 
 readParagraph         SUBU    bp, rSP, 24
                       LDOU    t, bp, 0
                       LDOU    p, bp, 8
                       CMPU    b, text, #0
-                      JZ      b, ret
+                      JZ      b, end
                       CMPU    b, text, 10
                       JNZ     b, continue
                       OR      tmp, text, 0
                       ADDU    tmp, tmp, 1
                       CMPU    $0, tmp, 10
-                      JZ      $0, ret
+                      JZ      $0, end
                       XOR     tmp, tmp, tmp
 continue              LDBU    p, text, 0
                       ADDU    text, text, 1
                       ADDU    p, p, 1
-ret                   SETB    p, 0x00
+end                   SETW    p, 0
                       ADDU    p, p, 1
                       OR      ret, p, 0
                       OR      ret2, t, 0

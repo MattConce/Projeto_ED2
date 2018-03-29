@@ -10,14 +10,15 @@
           bol           IS      $16
           words         IS      $17
           j             IS      $18
-          bol           IS      $19
+          count         IS      $19
           w             IS      $20
           i             IS      $21
           m             IS      $22  *no just2.c é o w_l (número de palavras por linha)
           lines         IS      $23
           line          IS      $24
           k             IS      $25
-          sav           IS      $455
+          l             IS      $26
+          sav           IS      $255
 
 
 breakInLines    SUBU  bp, rSP, 40
@@ -28,12 +29,12 @@ breakInLines    SUBU  bp, rSP, 40
                 XOR   i, i, i
                 SUBU  words, words, words
 while1          CMPU  b, i, w
-                JZ    b, ret
+                JZ    b, end
                 XOR   line, line, line
                 PUSH  words
                 SAVE  sav, $26, $29
                 CALL  strlen
-                OR    tmp, ret
+                OR    tmp, ret, 0
                 CMPU  b, tmp, c
                 JN    b, while2
                 STTU  words, line, 0
@@ -43,7 +44,7 @@ while2          CMPU  b, count, c
                 JNN   b, for
                 XOR   tmp, tmp, tmp
                 PUSH  words
-                SAVE  sav $26, $29
+                SAVE  sav, $26, $29
                 CALL  strlen
                 ADDU  count, count, ret
                 ADDU  count, count, 1
@@ -63,10 +64,10 @@ for             OR    j, k, 0
                 CMPU  b, j, bol
                 JNN   b, for
                 ADDU  line, line, 4
-                SETT  line, 32, 0
+                SETW  line, 32
                 JMP   for
 continue        ADDU  line, line, 1
-                SETB  line, #0
+                SETW  line, #0
                 STTU  line, lines, 0
                 ADDU  lines, lines, 4
                 ADDU  l, l, 1
@@ -75,6 +76,6 @@ continue        ADDU  line, line, 1
                 XOR   line, line, line
                 OR    k, i, 0
                 JMP   while1
-ret             OR    ret, lines, 0
+end             OR    ret, lines, 0
                 OR    ret2, l, 0
                 RET   4

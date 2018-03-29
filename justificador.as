@@ -1,4 +1,4 @@
-            EXPORT justificador
+            EXTERN justificador
 
             b             IS      $0
             bp            IS      $1
@@ -12,9 +12,9 @@
             l             IS      $8
             w             IS      $9
             i             IS      $10
-            sav           IS      $355
+            sav           IS      $255
 
-just        SUBU  bp, rSp, 24
+justificador SUBU  bp, rSP, 24
             LDOU  p, bp, 0
             LDOU  c, bp, 8
             PUSH  p
@@ -31,12 +31,12 @@ just        SUBU  bp, rSp, 24
             SAVE  sav, $9, $25
             CALL  breakInLines
             OR    lines, ret, 0
-            OR    l, rest2, 0
+            OR    l, ret2, 0
             REST  sav, $9, $25
             SUBU  lines, lines, lines
             XOR   i, i, i
 for         CMPU  b, i, l
-            JZ    b, ret
+            JZ    b, end
             PUSH  lines
             PUSH  c
             SAVE  sav, $9, $27
@@ -45,4 +45,4 @@ for         CMPU  b, i, l
             ADDU  i, i, 1
             ADDU  lines, lines, 8
             JMP   for
-ret         RET   2
+end         RET   2

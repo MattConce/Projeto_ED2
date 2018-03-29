@@ -12,7 +12,8 @@
             aux           IS      $37
             len           IS      $38
             cop           IS      $39
-            sav           IS      $555
+            tmp           IS      $40
+            sav           IS      $255
 
 insertChar  SUBU   bp, rSP, 32
             LDOU   str, bp, 0
@@ -25,16 +26,16 @@ insertChar  SUBU   bp, rSP, 32
             SUBU   r, len, 1
             SUBU   str, str, str
 for         CMPU   b, r, pos
-            JN     b, ret
+            JN     b, end
             LDBU   aux, str, r
             ADDU   str, r, 1
             STBU   aux, str, 0
             JMP    for
-ret         SETB   cop, 32
-            SETB   tmp, 0
+end         SETW   cop, 32
+            SETW   tmp, 0
             STBU   cop, str, 0
             ADDU   str, str, len
             ADDU   str, str, 1
             STBU   tmp, str, 0
-            OR     ret, str
+            OR     ret, str, 0
             RET    3
