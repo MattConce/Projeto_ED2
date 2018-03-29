@@ -14,7 +14,7 @@ tam           IS      $102     *reservado para o texto
 
 main          SUBU    C, rSP, 16
               LDOU    C, C, 0
-              INT     #DB0202
+              *INT     #DB0202
               PUSH    C
               SAVE    sav, $1, $5
               CALL    atoi
@@ -22,8 +22,9 @@ main          SUBU    C, rSP, 16
               OR      C, ret, 0
               SAVE    sav, $1, $5
               CALL    read
+              INT     #DB0202
               OR      text, ret, 0
-              REST    sav, $1, $5              
+              REST    sav, $1, $5
 start         OR      tam, text, 0
               SUBU    text, text, text
 while1        CMPU    $0, text, tam
