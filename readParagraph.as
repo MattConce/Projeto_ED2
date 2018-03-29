@@ -5,28 +5,31 @@ EXTERN readParagraph
                       t             IS      $2
                       p             IS      $3
                       ret           IS      rA
-                      ret2          IS      $4
+                      ret2          IS      $103
                       tmp           IS      $5
+                      tam           IS      $4
                       text          IS      $100
 
 
-readParagraph         SUBU    bp, rSP, 24
+readParagraph         XOR     p, p, p
+                      SUBU    bp, rSP, 32
                       LDOU    t, bp, 0
-                      LDOU    p, bp, 8
-                      CMPU    b, text, #0
-                      JZ      b, end
-                      CMPU    b, text, 10
+                      LDOU    p, bp, 8                      I
+                      LDOU    tam, bp, 16
+                      XOR     b, b, b
+while                 CMP     b, t, 0
+                      JNN     b, end
+                      CMP     b, t, 10
                       JNZ     b, continue
-                      OR      tmp, text, 0
+                      OR      tmp, t, 0
                       ADDU    tmp, tmp, 1
-                      CMPU    $0, tmp, 10
+                      CMP     $0, tmp, 10
                       JZ      $0, end
                       XOR     tmp, tmp, tmp
-continue              LDBU    p, text, 0
-                      ADDU    text, text, 1
+continue              STBU    t, p, 0
+                      ADDU    t, t, 1
                       ADDU    p, p, 1
-end                   SETW    p, 0
-                      ADDU    p, p, 1
-                      OR      ret, p, 0
+                      JMP     while
+end                   OR      ret, p, 0
                       OR      ret2, t, 0
-                      RET     2
+                      RET     3
