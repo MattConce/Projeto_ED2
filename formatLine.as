@@ -20,7 +20,7 @@
         S             IS      $26
         len           IS      $27
         tmp           IS      $28
-        sav           IS      $455
+        sav           IS      $255
 
 
 formatLine        SUBU  bp, rSP, 24
@@ -60,8 +60,9 @@ print             PUSH  line
                   SAVE  sav, $29, $40
                   CALL  puts
                   REST  sav, $29, $40
+                  JMP   end
 while             CMPU  b, s, S
-                  JP    b, ret
+                  JP    b, end
                   OR    N, len, 0
                   SUBU  N, N, 1
 for3              CMPU  b, i, 0
@@ -83,7 +84,7 @@ for3              CMPU  b, i, 0
                   JMP   for3
 pass              ADDU  loop, loop, 1
                   JMP   while
-ret               PUSH  line
+end               PUSH  line
                   SAVE  sav, $29, $40
                   CALL  puts
                   REST  sav, $29, $40

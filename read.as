@@ -3,6 +3,7 @@ EXTERN  read
 
 text        IS      $3
 n           IS      $4
+ret         IS      $5
 
 
 read        SETW    rX, 1
@@ -14,4 +15,5 @@ read        SETW    rX, 1
             ADDU    n, n, 1
             JMP     read
 
-end         RET     0
+end         OR      ret, text, 0
+            RET     0
