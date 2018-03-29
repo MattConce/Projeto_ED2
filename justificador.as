@@ -11,6 +11,7 @@
             words         IS      $7
             l             IS      $8
             w             IS      $9
+            i             IS      $10
             sav           IS      $355
 
 just        SUBU  bp, rSp, 24
@@ -27,18 +28,20 @@ just        SUBU  bp, rSp, 24
             PUSH  words
             PUSH  c
             PUSH  w
-            SAVE  sav, $9, $19
+            SAVE  sav, $9, $25
             CALL  breakInLines
             OR    lines, ret, 0
-            SAVE  sav, $9, $19
-            OR    l, lines, 0
+            OR    l, rest2, 0
+            REST  sav, $9, $25
             SUBU  lines, lines, lines
-while       CMPU  b, lines, l
+            XOR   i, i, i
+for         CMPU  b, i, l
             JZ    b, ret
             PUSH  lines
             PUSH  c
             SAVE  sav, $9, $19
             CALL  formatLine
             SAVE  sav, $9, $19
-            JMP   while
+            ADDU  i, i, 1
+            JMP   for
 ret         RET   2
