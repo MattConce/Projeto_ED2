@@ -10,6 +10,7 @@
         bol           IS      $16
         words         IS      $17
         word          IS      $18
+        w             IS      $19
         sav           IS      $255
 
 breakInWords    SUBU  bp, rSP, 32
@@ -24,10 +25,10 @@ while           CMPU  b, p, 32
                 ADDU  p, p, 1
                 SETW  bol, 1
                 JMP   while
-continue        CMPU  bol, 1, 1
-                JZ    for
+continue        CMPU  b, bol, 1
+                JZ    b, for
                 ADDU  word, word, 1
-                SETB  word, #0
+                SETW  word, #0
                 STTU  words, word, 0
                 ADDU  words, words, 4
                 ADDU  w, w, 1
