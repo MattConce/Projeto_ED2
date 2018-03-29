@@ -3,9 +3,10 @@ MAX             IS      10000
 MAX_W         IS      500
 MAX_l         IS      300
 sav           IS      $255
-ret           IS      $rA
+ret           IS      rA
 b             IS      $0
 C             IS      $2
+ret2          IS      $4
 text          IS      $100
 p             IS      $101     *reservado para os paragrafos
 tam           IS      $102     *reservado para o texto

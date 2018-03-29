@@ -10,14 +10,13 @@
         bol           IS      $16
         words         IS      $17
         word          IS      $18
-        bol           IS      $19
-        sav           IS      $355
+        sav           IS      $255
 
 breakInWords    SUBU  bp, rSP, 32
                 LDOU  p, bp, 0
                 LDOU  words, bp, 8
-for             CMPU  $0, p, 0x00
-                JZ    $0, ret
+for             CMPU  $0, p, 0
+                JZ    $0, end
 while           CMPU  b, p, 32
                 JZ    b, continue
                 STBU  p, word, 0
@@ -33,6 +32,6 @@ continue        CMPU  bol, 1, 1
                 ADDU  words, words, 4
                 ADDU  w, w, 1
                 JMP   for
-ret             OR    ret, words
+end             OR    ret, words
                 OR    ret2, w
                 RET   2
