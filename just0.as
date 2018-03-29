@@ -1,4 +1,4 @@
-            EXTERN  main
+            EXTERN  just0
 
 
 MAX         IS      10000
@@ -14,7 +14,7 @@ n           IS      $5
 curr        IS      $6
 
 
-main        SUBU    C, rSP, 16
+just0       SUBU    C, rSP, 16
             LDOU    C, C, 0
             PUSH    C
             SAVE    sav, $2, $6

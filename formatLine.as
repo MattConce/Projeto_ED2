@@ -1,6 +1,7 @@
         EXTERN formatLine
 
         b             IS      $9
+        op2           IS      $10
         bp            IS      $11
         c             IS      $12
         s             IS      $13
@@ -10,7 +11,7 @@
         bol           IS      $16
         words         IS      $17
         j             IS      $18
-        bol           IS      $19
+        op1           IS      $19
         w             IS      $20
         i             IS      $21
         m             IS      $22
@@ -34,7 +35,7 @@ formatLine        SUBU  bp, rSP, 24
                   SAVE  sav, $29, $32
                   CALL  strlen
                   REST  sav, $29, $32
-                  OR    len, ret
+                  OR    len, ret, 0
                   SUBU  S, c, len
                   XOR   a, a, a
                   SUBU  line, line, line
@@ -49,8 +50,10 @@ continue          CMPU  b, bol, 0
 for2              CMPU  b, s, S
                   JZ    b, print
                   PUSH  line
-                  PUSH  0
-                  PUSH  32
+                  SETW  op1, 0
+                  PUSH  op1
+                  SETW  op2, 32
+                  PUSH  op2
                   SAVE  sav, $29, $40
                   CALL  insertChar
                   OR    line, ret, 0
@@ -75,7 +78,8 @@ for3              CMPU  b, i, 0
                   SUBU  tmp, i, loop
                   ADDU  tmp, tmp, 1
                   PUSH  tmp
-                  PUSH  32
+                  SETW  op1, 32
+                  PUSH  op1
                   SAVE  sav, $29, $40
                   CALL  insertChar
                   OR    line, ret, 0

@@ -33,6 +33,6 @@ continue        CMPU  b, bol, 1
                 ADDU  words, words, 4
                 ADDU  w, w, 1
                 JMP   for
-end             OR    ret, words
-                OR    ret2, w
+end             OR    ret, words, 0
+                OR    ret2, w, 0
                 RET   2

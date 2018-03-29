@@ -20,12 +20,10 @@ main          SUBU    C, rSP, 16
               CALL    atoi
               REST    sav, $1, $5
               OR      C, ret, 0
-              CALL    getchar
-              CMPU    $0, rA, 0
-              JZ      $0, start
-              STBU    rA, text, 0
-              ADDU    text, text, 1
-              JMP     getchar
+              SAVE    sav, $1, $5
+              CALL    read
+              OR      text, ret, 0
+              REST    sav, $1, $5              
 start         OR      tam, text, 0
               SUBU    text, text, text
 while1        CMPU    $0, text, tam
