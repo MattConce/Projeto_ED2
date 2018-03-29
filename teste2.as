@@ -75,4 +75,8 @@ just          JMP    breakInWords
               JMP    formatLine
 ret_just      JMP    while1
 
-breakInWords
+breakInWords  XOR    i, i, i
+              XOR    j, j, j
+              CMPU   $0, p, 0x00
+              JZ     $0, ret_breakW
+              XOR    tmp, tmp, tmp

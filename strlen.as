@@ -12,9 +12,9 @@ strlen  XOR   c, c, c
         OR    len, str
         SUBU  str, str, str
 loop    CMPU  b, str, len
-        JZ    b, ret
+        JZ    b, end
         ADDU  c, c, 1
         ADDU  str, str, 1
         JMP   loop
-ret     OR    ret, c, 0
+end     OR    ret, c, 0
         RET   1

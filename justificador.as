@@ -12,7 +12,7 @@
             l             IS      $8
             w             IS      $9
             i             IS      $10
-            sav           IS      $355
+            sav           IS      $255
 
 just        SUBU  bp, rSp, 24
             LDOU  p, bp, 0
@@ -36,7 +36,7 @@ just        SUBU  bp, rSp, 24
             SUBU  lines, lines, lines
             XOR   i, i, i
 for         CMPU  b, i, l
-            JZ    b, ret
+            JZ    b, end
             PUSH  lines
             PUSH  c
             SAVE  sav, $9, $27
@@ -45,4 +45,4 @@ for         CMPU  b, i, l
             ADDU  i, i, 1
             ADDU  lines, lines, 8
             JMP   for
-ret         RET   2
+end         RET   2
