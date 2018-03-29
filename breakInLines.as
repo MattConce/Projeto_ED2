@@ -28,8 +28,8 @@ breakInLines    SUBU  bp, rSP, 40
                 XOR   i, i, i
                 SUBU  words, words, words
 while1          CMPU  b, i, w
+                JZ    b, ret
                 XOR   line, line, line
-                JZ    ret
                 PUSH  words
                 SAVE  sav, $26, $29
                 CALL  strlen
@@ -53,6 +53,7 @@ while2          CMPU  b, count, c
                 ADDU  i, i, 1
                 JMP   while2
 for             OR    j, k, 0
+                ADDU  m, m, k
                 CMPU  b, j, m
                 JNN   b, continue
                 STOU  words, line, 0
@@ -61,12 +62,11 @@ for             OR    j, k, 0
                 SUBU  bol, bol, 1
                 CMPU  b, j, bol
                 JNN   b, for
-                STOU  line, 32, 0
+                ADDU  line, line, 8
+                SETO  line, 32, 0
                 JMP   for
-continue        PUSH  line
-                SAVE  sav $26, $29
-                CALL  strlen
-                SETB  line, #0
+continue        ADDU  line, line, 8
+                SETO  line, #0
                 STOU  line, lines, 0
                 ADDU  lines, lines, 8
                 ADDU  l, l, 1
@@ -75,6 +75,6 @@ continue        PUSH  line
                 XOR   line, line, line
                 OR    k, i, 0
                 JMP   while1
-ret             OR    ret, lines
+ret             OR    ret, lines, 0
                 OR    ret2, l, 0
                 RET   4
