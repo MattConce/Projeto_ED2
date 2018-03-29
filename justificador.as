@@ -39,9 +39,10 @@ for         CMPU  b, i, l
             JZ    b, ret
             PUSH  lines
             PUSH  c
-            SAVE  sav, $9, $19
+            SAVE  sav, $9, $27
             CALL  formatLine
-            SAVE  sav, $9, $19
+            SAVE  sav, $9, $27
             ADDU  i, i, 1
+            ADDU  lines, lines, 8
             JMP   for
 ret         RET   2
