@@ -29,8 +29,8 @@ continue        CMPU  bol, 1, 1
                 JZ    for
                 ADDU  word, word, 1
                 SETB  word, #0
-                OR    words, word, 0
-                ADDU  words, words, 8
+                STTU  words, word, 0
+                ADDU  words, words, 4
                 ADDU  w, w, 1
                 JMP   for
 ret             OR    ret, words

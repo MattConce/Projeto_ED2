@@ -36,7 +36,7 @@ while1          CMPU  b, i, w
                 OR    tmp, ret
                 CMPU  b, tmp, c
                 JN    b, while2
-                STOU  words, line, 0
+                STTU  words, line, 0
                 ADDU  i, i, 1
                 JMP   continue
 while2          CMPU  b, count, c
@@ -56,19 +56,19 @@ for             OR    j, k, 0
                 ADDU  m, m, k
                 CMPU  b, j, m
                 JNN   b, continue
-                STOU  words, line, 0
+                STTU  words, line, 0
                 OR    bol, m, 0
                 ADDU  bol, bol, k
                 SUBU  bol, bol, 1
                 CMPU  b, j, bol
                 JNN   b, for
-                ADDU  line, line, 8
-                SETO  line, 32, 0
+                ADDU  line, line, 4
+                SETT  line, 32, 0
                 JMP   for
-continue        ADDU  line, line, 8
-                SETO  line, #0
-                STOU  line, lines, 0
-                ADDU  lines, lines, 8
+continue        ADDU  line, line, 1
+                SETB  line, #0
+                STTU  line, lines, 0
+                ADDU  lines, lines, 4
                 ADDU  l, l, 1
                 XOR   count, count, count
                 XOR   m, m, m
