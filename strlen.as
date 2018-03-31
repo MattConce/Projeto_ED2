@@ -8,15 +8,14 @@
         ret IS  rA
 
 
-strlen  XOR   c, c, c
-        SUBU  bp, rSP, 0
-        LDOU  str, bp, 0
-        OR    len, str, 0
-        SUBU  str, str, str
-loop    CMPU  b, str, len
-        JZ    b, end
-        ADDU  c, c, 1
-        ADDU  str, str, 1
-        JMP   loop
-end     OR    ret, c, 0
-        RET   1
+strlen  XOR    c, c, c
+        SUBU   bp, rSP, 16
+        LDOU   str, bp, 0
+        SUB    str, str, str
+loop    CMP    b, str, 0
+        JN     b, end
+        ADDU   c, c, 1
+        ADDU   str, str, 1
+        JMP    loop
+end     OR     ret, c, 0
+        RET    1
