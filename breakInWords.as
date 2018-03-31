@@ -19,6 +19,7 @@
 
 breakInWords    SUBU  bp, rSP, 16
                 LDOU  k, bp, 0
+                XOR   tmp, tmp, tmp
 for             CMP   b, i, k
                 *INT   #DB1717
                 JNN   b, end
@@ -43,16 +44,17 @@ continue        CMPU  b, bol, 1
                 SAVE    rSP, $1, $7
                 PUSH    word
                 CALL    strlen
-                REST    rSP, $1, $7
+                REST    rSP, $1, $5
                 OR      len, ret, 0
                 INT     #DB1818
-                SAVE    rSP, $1, $7
+                SUB     word, word, word
+                SAVE    rSP, $1, $5
                 PUSH    word
                 PUSH   len
                 CALL    puts
                 REST    rSP, $1, $7
-                XOR   word, word, word
-add             ADDU  i, i, 1
+add             XOR   word, word, word
+                ADDU  i, i, 1
                 ADDU  p, p, 1
                 JMP   for
 end             OR    ret, words, 0
