@@ -11,9 +11,9 @@
 strlen  XOR    c, c, c
         SUBU   bp, rSP, 16
         LDOU   str, bp, 0
-        SUBU    str, str, str
+        *SUBU    str, str, str
 loop    LDB    b, str, 0
-        JNP     b, end
+        JN     b, end
         ADDU   c, c, 1
         ADDU   str, str, 1
         JMP    loop

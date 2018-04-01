@@ -1,64 +1,61 @@
-              EXTERN  main
-MAX             IS      10000
-MAX_W         IS      500
-MAX_l         IS      300
-sav           IS      $200
-b             IS      $0
-C             IS      $107
-ret           IS      rA
-ret2          IS      $103
-text          IS      $100
-p             IS      $101     *reservado para os paragrafos
-tam           IS      $102     *reservado para o texto
-n             IS      $105
-k             IS      $106
-len_w         IS      $107
-hello         STR     "hello\n"
+EXTERN            main
+
+b     IS  $0
+c     IS  $1
+ret   IS  rA
+ret2  IS  rR
+text  IS  $2
+p     IS  $3
+tam   IS  $4
+n     IS  $5
+k     IS  $6
 
 
-main          SUBU    C, rSP, 16
-              LDOU    C, C, 0
-              SAVE    rSP, $1, $5
-              PUSH    C
-              CALL    atoi
-              REST    rSP, $1, $5
-              OR      C, ret, 0
-              SAVE    rSP, $1, $5
-              CALL    read
-              REST    rSP, $1, $5
-              OR      text, ret, 0
-              OR      tam, ret2, 0
-              SUB     text, text, text
-while1        CMP     $0, text, tam
-              JZ      $0, end
-paragraph     SAVE    rSP, $1, $10
-              PUSH    tam
-              CALL    readParagraph
-              REST    rSP, $1, $10
-              INT     #DB6B6B
-              OR      p, ret, 0
-              OR      k, ret2, 0
-              ADDU    n, n, k
-              SUB     p, p, p
-              SAVE    rSP, $1, $7
-              PUSH    p
-              PUSH    k
-              CALL    puts
-              REST    rSP, $1, $7
-              SETW    rX, 2
-              SETW    rY, 10
-              INT     #80
-              SETW    rX, 2
-              SETW    rY, 10
-              INT     #80
-              SUB     p, p, p
-              SAVE    rSP, $0, $11
-              PUSH    C
-              PUSH    k
-              CALL    justificador
-              REST    rSP, $0, $11
-while2        CMPU    $0, text, 10
-              JNZ     $0, while1
-              ADDU    text, text, 1
-              JMP     while2
-end           INT     1
+main              SUBU  c, rSP, 16
+                  LDOU  c, c, 0
+                  SAVE  rSP, $0, $5
+                  PUSH  c
+                  CALL  atoi
+                  REST  rSP, $0, $5
+                  OR    c, ret, 0
+                  SAVE  rSP, $0, $5
+                  CALL  read
+                  REST  rSP, $0, $5
+                  OR    text, ret, 0
+                  OR    tam, text, 0
+                  INT   #DB0202                
+                  SUBU  text, text, text
+while1            CMP   b, text, tam
+                  JZ    b, end
+                  SAVE  rSP, $0, $7
+                  PUSH  text
+                  PUSH  tam
+                  CALL  readParagraph
+                  REST  rSP, $0, $7
+                  OR    p, ret, 0
+                  OR    k, p, 0
+                  ADDU  n, n, k
+                  SUBU  p, p, p
+                  SAVE  rSP, $0, $6
+                  PUSH  p
+                  PUSH  k
+                  CALL  puts
+                  REST  rSP, $0, $6
+                  SETW  rX, 2
+                  SETW  rY, 10
+                  INT   #80
+                  SETW  rX, 2
+                  SETW  rY, 10
+                  INT   #80
+                  SUBU  p, p, p
+                  SAVE  rSP, $0, $15
+                  PUSH  p
+                  PUSH  c
+                  PUSH  k
+                  CALL  justificador
+                  REST  rSP, $0, $15
+while2            LDB   b, text, 10
+                  JNZ   b, while1
+                  ADDU  text, text, 1
+                  JMP   while2
+end               INT   0

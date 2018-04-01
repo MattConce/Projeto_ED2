@@ -1,22 +1,19 @@
-EXTERN  read
+EXTERN              read
+
+b         IS  $0
+text      IS  $1
+tam       IS  $2
+ret       IS  rA
 
 
-text        IS      $100
-n           IS      $4
-ret         IS      rA
-ret2        IS      $103
-
-
-read        SETW    rX, 1
-            INT     #80
-            CMP     $0, rA, 0
-            JN      $0, end
-            STBU     rA, text, n          
-            *ADDU     text, text, 1
-            ADDU     n, n, 1
-            JMP     read
-
-end         XOR     rA, rA, rA
-            *OR      ret, text, 0
-            OR      ret2, n, 0
-            RET     0
+read                XOR   text, text, text
+next                SETW  rX, 1
+                    INT   #80
+                    CMP   b, rA, 0
+                    JN    b, end
+                    STBU  rA, text, 0
+                    ADDU  text, text, 1
+                    JMP   next
+end                 XOR   rA, rA, rA
+                    OR    ret, text, 0
+                    RET   0
