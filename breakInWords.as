@@ -33,6 +33,7 @@ while           LDBU  t2, p, 0
                 ADDU  word, word, 1
                 ADDU  p, p, 1
                 ADDU  i, i, 1
+                ADDU  len, len, 1
                 SETW  bol, 1
                 JMP   while
 continue        CMPU  b, bol, 1
@@ -40,20 +41,20 @@ continue        CMPU  b, bol, 1
                 LDTU  words, word, 0
                 ADDU  words, words, 4
                 ADDU  w, w, 1
+                *INT   #DB1313
                 SETW  bol, 0
-                SAVE    rSP, $1, $7
-                PUSH    word
-                CALL    strlen
-                REST    rSP, $1, $5
-                OR      len, ret, 0
-                INT     #DB1818
-                SUB     word, word, word
+                *INT     #DB1818
+                SUB     word, p, len
                 SAVE    rSP, $1, $5
                 PUSH    word
                 PUSH   len
                 CALL    puts
                 REST    rSP, $1, $7
+                SETW    rX, 2
+                SETW    rY, 10
+                INT     #80
 add             XOR   word, word, word
+                XOR   len, len, len
                 ADDU  i, i, 1
                 ADDU  p, p, 1
                 JMP   for
