@@ -5,7 +5,7 @@ EXTERN breakInWords
   c             IS      $12
   p             IS      $101
   ret           IS      rA
-  ret2          IS      $14
+  ret2          IS      $103
   tmp           IS      $15
   bol           IS      $16
   words         IS      $17
@@ -56,14 +56,13 @@ continue        CMPU  b, bol, 1
                 SETW    rX, 2
                 SETW    rY, 10
                 INT     #80
-                INT     #DB1818
-                INT     #DB6565
-                SUB   word, p, len
+                *INT     #DB1818
+                *INT     #DB6565
                 SAVE    rSP, $1, $5
                 PUSH    word
                 PUSH   len
                 CALL    puts
-                REST    rSP, $1, $
+                REST    rSP, $1, $5
                 SETW    rX, 2
                 SETW    rY, 10
                 INT     #80
@@ -74,4 +73,4 @@ add             XOR   word, word, word
                 JMP   for
 end             OR    ret, words, 0
                 OR    ret2, w, 0
-                RET 2
+                RET   1

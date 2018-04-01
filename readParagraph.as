@@ -32,11 +32,11 @@ while                 XOR     b, b, b
                       LDBU    t2, j, 0
                       CMP     b, t2, 10
                       JZ      b, end
-continue              LDBU    p, text, 0                      
+continue              LDBU    p, text, 0
                       ADDU    i, i, 1
                       ADDU    text, text, 1
                       ADDU    p, p, 1
                       JMP     while
 end                   OR      ret, p, 0
                       OR      ret2, i, 0
-                      RET     2
+                      RET     1
