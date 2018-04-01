@@ -12,6 +12,7 @@ p             IS      $101     *reservado para os paragrafos
 tam           IS      $102     *reservado para o texto
 n             IS      $105
 k             IS      $106
+len_w         IS      $107
 hello         STR     "hello\n"
 
 
@@ -50,7 +51,7 @@ paragraph     SAVE    rSP, $1, $10
               SETW    rX, 2
               SETW    rY, 10
               INT     #80
-              SUB     p, p, p              
+              SUB     p, p, p
               SAVE    rSP, $0, $11
               PUSH    C
               PUSH    k

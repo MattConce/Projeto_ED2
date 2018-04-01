@@ -18,10 +18,10 @@
 justificador  SUBU  bp, rSP, 24
               LDOU  c, bp, 0
               LDOU  k, bp, 8
-              SAVE  rSP, $9, $24
+              SAVE  rSP, $9, $25
               PUSH  k
               CALL  breakInWords
-              REST  rSP, $9, $24
+              REST  rSP, $9, $25
               OR    words, ret, 0
               OR    w, ret2, 0
               PUSH  lines
