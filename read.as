@@ -11,7 +11,7 @@ read        SETW    rX, 1
             INT     #80
             CMP     $0, rA, 0
             JN      $0, end
-            STBU     rA, text, n          
+            STBU     rA, text, n
             *ADDU     text, text, 1
             ADDU     n, n, 1
             JMP     read

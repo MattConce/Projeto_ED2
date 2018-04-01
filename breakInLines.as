@@ -94,5 +94,5 @@ continue        ADDU  line, line, 1
                 OR    k, i, 0
                 JMP   while1
 end             OR    ret, lines, 0
-                OR    ret2, l, 0               
+                OR    ret2, l, 0
                 RET   4

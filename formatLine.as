@@ -21,7 +21,7 @@
         S             IS      $26
         len           IS      $27
         tmp           IS      $28
-        sav           IS      $255
+        sav           IS      rSP
 
 
 formatLine        SUBU  bp, rSP, 24

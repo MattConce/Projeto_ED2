@@ -13,7 +13,7 @@
             len           IS      $38
             cop           IS      $39
             tmp           IS      $40
-            sav           IS      $255
+            sav           IS      rSP
 
 insertChar  SUBU   bp, rSP, 32
             LDOU   str, bp, 0
