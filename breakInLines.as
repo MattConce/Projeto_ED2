@@ -21,27 +21,28 @@
           word          IS      $27
           len           IS      $28
           test          IS      $29
-          words_end     IS      $110
+          words_end     IS      $30
 
 
-breakInLines    SUBU  bp, rSP, 32
+breakInLines    SUBU  bp, rSP, 40
                 LDOU  words_beg, bp, 0
-                LDOU  c, bp, 8
-                LDOU  w, bp, 16
+                LDOU  words_end, bp, 8
+                LDOU  c, bp, 16
+                LDOU  w, bp, 24
                 XOR   i, i, i
-                SUBU  words_beg, words_beg, words_beg
-                SUBU  words_end, words_end, words_end
+                SUB  words_beg, words_beg, words_beg
+                SUB  words_end, words_end, words_end
 teste           CMP   b, test, 10
                 JZ    b, int
 while1          CMP   b, i, w
                 JNN   b, end
                 XOR   line, line, line
-                LDB   len, words_end, 0
-                INT    #DB1C1C
-                ADDU  words_end, words_end, 1
                 LDBU  word, words_beg, 0
-                INT    #DB1111
                 ADD   words_beg, words_beg, 1
+                INT    #DB1B1B
+                LDBU   len, words_end, 0
+                ADDU  words_end, words_end, 1
+                INT    #DB1C1C
                 SAVE  rSP, $1, $5
                 PUSH    word
                 PUSH    len
@@ -50,7 +51,7 @@ while1          CMP   b, i, w
                 SETW    rX, 2
                 SETW    rY, 10
                 INT     #80
-                INT   #DB1C1C
+                *INT   #DB1C1C
                 ADD   test, test, 1
                 JMP   teste
 int             INT   0
@@ -93,5 +94,5 @@ continue        ADDU  line, line, 1
                 OR    k, i, 0
                 JMP   while1
 end             OR    ret, lines, 0
-                OR    ret2, l, 0
+                OR    ret2, l, 0               
                 RET   4

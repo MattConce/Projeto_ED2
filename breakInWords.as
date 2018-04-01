@@ -6,6 +6,7 @@ EXTERN breakInWords
   p             IS      $101
   ret           IS      rA
   ret2          IS      $103
+  ret3          IS      $107
   tmp           IS      $15
   bol           IS      $16
   words_beg     IS      $17
@@ -17,7 +18,7 @@ EXTERN breakInWords
   k             IS      $23
   len           IS      $24
   t             IS      $25
-  words_end     IS      $110
+  words_end     IS      $26
 
 
 breakInWords    SUBU  bp, rSP, 16
@@ -44,10 +45,11 @@ continue        CMPU  b, bol, 1
                 XOR   word, word, word
                 SUBU  word, p, len
                 STBU  len, words_end, 0
+                LDBU  tmp, words_end, 0
+                INT   #DB0F0F
                 ADDU  words_end, words_end, 1
                 LDBU  t, word, 0
                 STBU  t, words_beg, 0     *guarda as palavras num vetor
-                *INT   #DB1919
                 ADDU  words_beg, words_beg, 1
                 ADDU  w, w, 1
                 *INT   #DB1313
@@ -77,4 +79,5 @@ add             XOR   word, word, word
                 JMP   for
 end             OR    ret, words_beg, 0
                 OR    ret2, w, 0
+                OR    ret3, words_end, 0
                 RET   1
