@@ -8,7 +8,7 @@ EXTERN breakInWords
   ret2          IS      $103
   tmp           IS      $15
   bol           IS      $16
-  words         IS      $17
+  words_beg     IS      $17
   word          IS      $18
   w             IS      $19
   i             IS      $20
@@ -16,6 +16,9 @@ EXTERN breakInWords
   t2            IS      $22
   k             IS      $23
   len           IS      $24
+  t             IS      $25
+  words_end     IS      $110
+
 
 breakInWords    SUBU  bp, rSP, 16
                 LDOU  k, bp, 0
@@ -29,7 +32,7 @@ while           LDBU  t2, p, 0
                 CMP   b, t2, 10
                 JZ    b, continue
                 LDBU   word, p, 0
-                INT   #DB1212
+                *INT   #DB1212
                 ADDU  p, p, 1
                 ADDU  i, i, 1
                 ADDU  word, word, 1          *depuração
@@ -39,12 +42,13 @@ while           LDBU  t2, p, 0
 continue        CMPU  b, bol, 1
                 JN    b, add
                 XOR   word, word, word
-                SUB   word, p, len
-                LDTU  words, word, 0     *guarda as palavras num vetor
-                ADDU  words, words, 4
-                STBU  len, words, 0      *guarda o comprimento da palavra
-                ADDU  words, words, 1
-                *INT   #DB1111
+                SUBU  word, p, len
+                STBU  len, words_end, 0
+                ADDU  words_end, words_end, 1
+                LDBU  t, word, 0
+                STBU  t, words_beg, 0     *guarda as palavras num vetor
+                *INT   #DB1919
+                ADDU  words_beg, words_beg, 1
                 ADDU  w, w, 1
                 *INT   #DB1313
                 SETW  bol, 0
@@ -60,7 +64,7 @@ continue        CMPU  b, bol, 1
                 *INT     #DB6565
                 SAVE    rSP, $1, $5
                 PUSH    word
-                PUSH   len
+                PUSH    len
                 CALL    puts
                 REST    rSP, $1, $5
                 SETW    rX, 2
@@ -71,6 +75,6 @@ add             XOR   word, word, word
                 ADDU  i, i, 1
                 ADDU  p, p, 1
                 JMP   for
-end             OR    ret, words, 0
+end             OR    ret, words_beg, 0
                 OR    ret2, w, 0
                 RET   1

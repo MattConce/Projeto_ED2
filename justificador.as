@@ -8,32 +8,32 @@
             ret2          IS      $103
             tmp           IS      $5
             lines         IS      $6
-            words         IS      $7
+            words_beg     IS      $7
             l             IS      $8
             w             IS      $9
             i             IS      $10
             k             IS      $11
+            words_end     IS      $110
 
 
 justificador  SUBU  bp, rSP, 24
               LDOU  c, bp, 0
               LDOU  k, bp, 8
-              SAVE  rSP, $9, $24
+              SAVE  rSP, $9, $30
               PUSH  k
               CALL  breakInWords
-              REST  rSP, $9, $24
-              OR    words, ret, 0
+              REST  rSP, $9, $30
+              OR    words_beg, ret, 0
               OR    w, ret2, 0
               INT   #DB0909
-              SAVE  rSP, $9, $25
-              PUSH  lines
-              PUSH  words
+              SAVE  rSP, $9, $30
+              PUSH  words_beg
               PUSH  c
               PUSH  w
               CALL  breakInLines
+              REST  rSP, $9, $30
               OR    lines, ret, 0
               OR    l, ret2, 0
-              REST  rSP, $9, $25
               SUBU  lines, lines, lines
               XOR   i, i, i
 for           CMPU  b, i, l
