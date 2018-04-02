@@ -1,10 +1,9 @@
 EXTERN  printw
 
 
-sav         IS      $0
-b           IS      $1
-m           IS      $3
-kp          IS      $4
+b           IS      $0
+m           IS      $2
+kp          IS      $3
 
 
 printw      SETW    rX,2

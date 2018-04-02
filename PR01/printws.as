@@ -1,13 +1,12 @@
 EXTERN  printws
 
 
-sav         IS      $0
-b           IS      $1
-m           IS      $3
-n           IS      $4
-sp          IS      $5
-bp          IS      $6
-kp          IS      $7
+b           IS      $0
+m           IS      $2
+n           IS      $3
+sp          IS      $4
+bp          IS      $5
+kp          IS      $6
 
 
 printws     SETW    rX, 2
@@ -19,12 +18,14 @@ printws     SETW    rX, 2
             JZ      b, end
 
 print       CMP     b, n, 0
-            JZ      b, gol
+            JZ      b, end
             LDB     kp, m, 0
             ADD     m, m, 1
+            SAVE    rSP, $3, $3
             PUSH    kp
             CALL    printw
-            PUSH    N
+            REST    rSP, $3, $3
+            PUSH    sp
             CALL    printsp
             SUB     n, n, 1
             JMP     print

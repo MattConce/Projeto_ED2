@@ -1,64 +1,74 @@
 EXTERN  just
 
-sav         IS      $0
-b           IS      $1
-c           IS      $2
-m           IS      $3
-n           IS      $4
-k           IS      $5
-N           IS      $6
-kp          IS      $7
-a1          IS      $9
+
+b           IS      $0
+c           IS      $1
+m           IS      $2
+n           IS      $3
+k           IS      $4
+kp          IS      $5
+a1          IS      $6
+a2          IS      $7
+a3          IS      $8
 
 
 just        XOR     b, b, b
             SETW    m, 1
-            XOR     oc, oc, oc
-            XOR     a1, a1, a1
 
             SUBU    c, rSP, 16
             LDOU    c, c, 0
 
-readPrint   XOR     n, n, n
-            XOR     N, N, N
+            XOR     kp, kp, kp
 
+read        XOR     n, n, n
+            OR      kp, a3, 0
+            OR      k, kp, 0
+            XOR     a3, a3, a3
+
+            SAVE    rSP, $5, $7
+            PUSH    c
+            PUSH    kp
             CALL    readln
+            REST    rSP, $5, $7
             OR      kp, rA, 0
 
-            CMP     b, kp, #fffffffffffffffe
-            JZ      b, end
-            CMP     b, kp, #ffffffffffffffff
+            XOR     a1, a1, a1
+            SUB     a1, a1, 1
+            CMP     b, kp, a1
             JZ      b, eof
+            JN      b, end
 
-            CMP     b, n, 0
-            JNZ     b, nempty
-            SETW    N, 0
-            SETW    rR, 0
+print       SAVE    rSP, $1, $1
+            SAVE    rSP, $3, $8
             PUSH    n
-            PUSH    N
-            PUSH    rR
+            PUSH    c
+            PUSH    k
+            PUSH    kp
             CALL    println
-            JMP     readPrint
+            REST    rSP, $3, $8
+            REST    rSP, $1, $1
+            OR      a1, m, 0
+            XOR     m, m, m
+            OR      a3, kp, 0
+reset       CMP     b, kp, 0
+            JN      b, read
+            LDBU    a2, a1, 0
+            STBU    a2, m, 0
+            SUB     kp, kp, 1
+            ADD     m, m, 1
+            ADD     a1, a1, 1
+            JMP     reset
 
-nempty      CMP     b, kp, 0
-            JZ      lastln
-            SUB     N, c, k
-            DIV     N, N, n
-            JMP     println
-lastln      SETW    N, 1
-            SETW    rR, 0
-println     PUSH    N
+eof         XOR     kp, kp, kp
+            SAVE    rSP, $1, $1
+            SAVE    rSP, $3, $8
             PUSH    n
-            PUSH    rR
+            PUSH    c
+            PUSH    k
+            PUSH    kp
             CALL    println
-            JMP     readPrint
-
-eof         SETW    N, 1
-            SETW    rR, 0
-            PUSH    N
-            PUSH    n
-            PUSH    rR
-            CALL    println
+            REST    rSP, $3, $8
+            REST    rSP, $1, $1
 
 end         SETW    rX, 2
             SETW    rY, 0
