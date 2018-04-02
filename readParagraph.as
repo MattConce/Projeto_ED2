@@ -1,31 +1,31 @@
-        EXPORT readParagraph
+EXTERN  readParagraph
 
-                      b             IS      $0
-                      bp            IS      $1
-                      t             IS      $2
-                      p             IS      $3
-                      ret           IS      rA
-                      ret2          IS      $4
-                      tmp           IS      $5
+* receives the last byte's memory adress
+* returns the memory adress of the first consecutive new line occurrence
 
+l_mem      IS        $0          *input last byte's memory adress
+mem        IS        $1          *current byte's mem adress
+byte       IS        $2          *current byte's value
 
-readParagraph         SUBU    bp, rSP, 24
-                      LDOU    t, bp, 0
-                      LDOU    p, bp, 8
-                      CMPU    b, text, #0
-                      JZ      b, ret
-                      CMPU    b, text, 10
-                      JNZ     b, continue
-                      OR      tmp, text, 0
-                      ADDU    tmp, tmp, 1
-                      CMPU    $0, tmp, 10
-                      JZ      $0, ret
-                      XOR     tmp, tmp, tmp
-continue              LDBU    p, text, 0
-                      ADDU    text, text, 1
-                      ADDU    p, p, 1
-ret                   SETB    p, 0x00
-                      ADDU    p, p, 1
-                      OR      ret, p, 0
-                      OR      ret2, t, 0
-                      RET     2
+readParagraph   XOR    l_mem, l_mem, l_mem
+                XOR    mem, mem, mem
+                SUBU   rX, rSP, 16
+                LDOU   l_mem, rX, 0       *loading len from stack
+                SETW   mem, 10000         *manual input for mem
+
+while           CMP    rX, l_mem, mem
+                JZ     rX, end            *happens if whole text is a paragraph
+                LDBU   byte, mem, 0
+                CMP    rX, byte, 10
+                JZ     rX, found_nl       *found a new line
+                ADDU   mem, mem, 1
+                JMP    while
+
+found_nl        ADDU   mem, mem, 1
+                LDBU   byte, mem, 0
+                CMP    rX, byte, 10
+                JZ     rX, end            *found a consecutive new line
+                JMP    while
+
+end             OR     rA, mem, 0         *return mem (second new line's adress)
+                RET    1

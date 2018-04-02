@@ -1,54 +1,54 @@
-              EXTERN  main
-MAX             IS      10000
-MAX_W         IS      500
-MAX_l         IS      300
-sav           IS      $255
-ret           IS      $rA
-b             IS      $0
-C             IS      $2
-text          IS      $100
-p             IS      $101     *reservado para os paragrafos
-tam           IS      $102     *reservado para o texto
+EXTERN  main
 
+*==  IMPORTANT: Implementing malloc would be interesting, seeing as
+*    in its current state, this program merely supposes certain memory
+*    adresses won't be used, and has a limited amount of adresses it can store
+*    bytes onto (see table below)
+*=============================================
 
-main          SUBU    C, rSP, 16
-              LDOU    C, C, 0
-              INT     #DB0202
-              PUSH    C
-              SAVE    sav, $1, $5
-              CALL    atoi
-              REST    sav, $1, $5
-              OR      C, ret, 0
-              CALL    getchar
-              CMPU    $0, rA, 0
-              JZ      $0, start
-              STBU    rA, text, 0
-              ADDU    text, text, 1
-              JMP     getchar
-start         OR      tam, text, 0
-              SUBU    text, text, text
-while1        CMPU    $0, text, tam
-              JZ      $0, end
-paragraph     PUSH    text
-              PUSH    p
-              SAVE    sav, $0, $5
-              CALL    readParagraph
-              OR      p, ret, 0
-              OR      text, ret2, 0
-              REST    sav, $0, $5
-              SETW    rX, 2
-              SETW    rY, 10
-              INT     #80
-              SETW    rX, 2
-              SETW    rY, 10
-              INT     #80
-              PUSH    p
-              PUSH    C
-              SAVE    sav, $0, $8
-              CALL    justificador
-              REST    sav, $0, $8
-while2        CMPU    $0, text, 10
-              JNZ     $0, while1
-              ADDU    text, text, 1
-              JMP     while2
-end           INT     1
+*==  MEMORY TABLE: ===========================
+*  M[10000]-M[59999]     whole text memory segment
+*  M[60000]-M[109999]    words memory segment
+*  M[110000]-M[160000]   justified paragraph segment
+*  M[200000]-M[225000]   words length segment
+*=============================================
+
+arg        IS        $0               * cmd line argument ('C')
+mem        IS        $1               * first byte's memory adress (used when read is called)
+lastmem    IS        $2               * last std input stored byte's mem adress
+par_last   IS        $3               * paragraph's last byte's mem adress
+word_last  IS        $4               * words memory segment last adress
+
+main          SUBU    arg, rSP, 16
+              LDOU    arg, arg, 0
+              SAVE    rSP, $0, $5
+              PUSH    arg
+              CALL    atoi                    *converts argument to int value
+              REST    rSP, $0, $5
+              OR      arg, rA, 0
+              SETW    mem, 10000              *hard coding first byte's memory adress
+              SAVE    rSP, $0, $1
+              PUSH    mem
+              CALL    read                    *stores text from M[mem] onwards, up to M[mem+49999]
+              REST    rSP, $0, $1
+              OR      lastmem, rA, 0          *text bytes are within M[mem] and M[lastmem]
+while         SAVE    rSP, $0, $2
+              PUSH    lastmem
+              CALL    readParagraph           *find a paragraph and store its' last byte adress
+              REST    rSP, $0, $2
+              OR      par_last, rA, 0
+              SAVE    rSP, $0, $4
+              PUSH    mem
+              PUSH    par_last
+              CALL    splitWords              * [store words in another memory segment, separating
+              REST    rSP, $0, $4             *  words by inserting NULL at the end of each word]
+              OR      word_last, rA, 0
+
+              SAVE    rSP, (!!!!!!)
+              PUSH    mem                     * [even though we push mem here, we have to manually
+              PUSH    word_last               *  pinpoint the adress in justify.as]
+              CALL    justify
+              REST    rSP, (!!!!!!)
+              OR      , rA, 0
+
+              INT     0
