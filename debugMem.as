@@ -1,8 +1,7 @@
 EXTERN  debugMem     * receives an register containing an memory adress
                      * and prints the value found at said adress
 
-bp      IS    $0
-value   IS    $1
+value   IS    $0
 
 debugMem    SETW  rX, 2
             SETW  rY, 45
@@ -26,19 +25,26 @@ debugMem    SETW  rX, 2
             INT   #80
             SETW  rY, 10
             INT   #80
+            JMP   print
 *above prints "----DEBUG S\n"
 
-            SUBU   bp, rSP, 16
-            *INT    #DB0000
-            LDOU   value, bp, 0
-            *INT    #DB0101
-            LDB    rY, value, 0
-            *SETW    bp, 1
-            *LDB     rY, bp, 0
-            INT     #80
+printNull   SETW  rX, 2
+            SETW  rY, 92
+            INT   #80
+            SETW  rY, 48
+            INT   #80
+            JMP   end
+
+print       SUBU   rX, rSP, 16
+            LDOU   value, rX, 0
+            LDBU   rY, value, 0
+            CMP    rX, rY, 0
+            JZ     rY, printNull
+            SETW   rX, 2
+            INT    #80
 
 *below prints "----DEBUG E\n"
-            SETW  rY, 10
+end         SETW  rY, 10
             INT   #80
             SETW  rY, 45
             INT   #80
