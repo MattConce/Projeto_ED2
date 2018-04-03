@@ -1,5 +1,7 @@
-# MAC0323 - Algoritmos e Estrutura de Dados II
-## PR01 - Justificação de textos
+MAC0323 - Algoritmos e Estrutura de Dados II
+================================================================================
+PR01 - Justificação de textos
+--------------------------------------------------------------------------------
 
 **Autores**:
 
