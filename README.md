@@ -14,7 +14,7 @@ PR01 - Justificação de textos
 
 - Para gerar *main.mac*: `make`
 - Para executar *main.mac*: `./macsim main.mac c < texto.txt`
-(`c` é o número de clunas e `texto.txt` é o arquivo que contém o texto)
+(*c* é o número de colunas e *texto.txt* é o arquivo que contém o texto)
 
 
 ### 1. O Programa
@@ -26,7 +26,7 @@ formato justificado na saída padrão com *c* colunas (*c* é passado como
 argumento na linha de comando).
 
 
-#### 1.1 Estratégia
+#### 1.1. Estratégia
 
 A estratégia usada para o programa é simples:
 
@@ -37,14 +37,19 @@ armazenamento.
 
 Para isso, os caracteres são armazenados com a seguinte estrutura de memória:
 
-| n<sub>0</sub> | c<sub>00</sub> | c<sub>01</sub> | ... | c<sub>0n<sub>0</sub></sub> | n<sub>1</sub> | c<sub>10</sub> | c<sub>11</sub> | ... |
+| n<sub>0</sub> | c<sub>00</sub> | c<sub>01</sub> | ... | c<sub>0(n<sub>0</sub>-1)</sub> | n<sub>1</sub> | c<sub>10</sub> | c<sub>11</sub> | ... |
 |:-----:|:--------:|:--------:|:---:|:----------:|:-----:|:--------:|:--------:|:---:|
 
-Onde n<sub>i</sub> representa a i-ésima palavra da linha que está sendo lido e
-c<sub>ij</sub> representa o j-ésimo caractere da mesma palavra (cada um desses
-valores ocupa um *byte*). Assim, armazena-se todos os caracteres e os tamanhos
-de cada uma das palavras que irão conter a linha e, então, é feita a impressão
-da mesma, de forma apropriada.
+Onde n<sub>i</sub> representa o tamanho da i-ésima palavra da linha que está
+sendo lida e c<sub>ij</sub> representa o j-ésimo caractere da mesma palavra
+(cada um desses valores ocupa um *byte*). Assim, armazena-se todos os caracteres
+e o tamanho de cada uma das palavras que irão compor a linha e, então, é feita
+a impressão da mesma, de forma apropriada.
+
+
+#### 1.2. Arquivos
+
+
 
 
 ### 2. Makefile
@@ -52,7 +57,8 @@ da mesma, de forma apropriada.
 O arquivo makefile contido nesse projeto tem como intuito facilitar a geração do
 executável principal. Ele pode ser executado das seguintes formas:
 
-- `make` ou `make main`: Gera o programa principal (*main.mac*)
+- `make` ou `make main`: Gera o programa principal (*main.mac*) com todas as
+suas dependências
 - `make other`: Gera um programa *test.mac* a partir de um *test.as* (para
 testes)
 - `make other FILE=nome_do_arquivo`: Gera um programa *nome_do_arquivo.mac* a
