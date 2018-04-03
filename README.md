@@ -12,6 +12,7 @@
 
 - Para gerar o executável: `make`
 - Para executar o arquivo: `./macsim main.mac c < texto.txt`
+(`c` é o número de clunas e `texto.txt` é o arquivo que contém o texto)
 
 
 ### 1. O Programa
@@ -39,3 +40,7 @@ Para isso, os caracteres são armazenados com a seguinte estrutura de memória:
 
 Onde $n_i$ representa a $i$-ésima palavra da linha que está sendo lido e
 $c_{ij}$ representa o $j$-ésimo caractere da mesma palavra.
+
+```math
+a + b = c
+```
