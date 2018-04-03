@@ -2,3 +2,5 @@ test*
 *.mac
 *.maco
 *.txt
+.Rhistory
+*.html
