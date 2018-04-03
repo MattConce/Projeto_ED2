@@ -41,9 +41,10 @@ Para isso, os caracteres são armazenados com a seguinte estrutura de memória:
 |:-----:|:--------:|:--------:|:---:|:----------:|:-----:|:--------:|:--------:|:---:|
 
 Onde n<sub>i</sub> representa a i-ésima palavra da linha que está sendo lido e
-c<sub>ij</sub> representa o j-ésimo caractere da mesma palavra. Assim,
-armazena-se todos os caracteres e os tamanhos de cada uma das palavras que irão
-conter a linha e, então, é feita a impressão da mesma, de forma apropriada.
+c<sub>ij</sub> representa o j-ésimo caractere da mesma palavra (cada um desses
+valores ocupa um *byte*). Assim, armazena-se todos os caracteres e os tamanhos
+de cada uma das palavras que irão conter a linha e, então, é feita a impressão
+da mesma, de forma apropriada.
 
 
 ### 2. Makefile
