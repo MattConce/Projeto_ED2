@@ -12,8 +12,8 @@ PR01 - Justificação de textos
 
 **Comandos para executar o programa**:
 
-- Para gerar o executável: `make`
-- Para executar o arquivo: `./macsim main.mac c < texto.txt`
+- Para gerar *main.mac*: `make`
+- Para executar *main.mac*: `./macsim main.mac c < texto.txt`
 (`c` é o número de clunas e `texto.txt` é o arquivo que contém o texto)
 
 
@@ -49,13 +49,19 @@ conter a linha e, então, é feita a impressão da mesma, de forma apropriada.
 ### 2. Makefile
 
 O arquivo makefile contido nesse projeto tem como intuito facilitar a geração do
-executável principal.
+executável principal. Ele pode ser executado das seguintes formas:
 
-A regra geral é para criar o mesmo e pode ser executada pele comando `make`.
-Existe uma outra regra, para testes, que é executada por `make other FILE=nome_do_arquivo`
-que serve para gerar programas de teste. Note que `nome_do_arquivo` não contém
-a extensão `.as`
+- `make` ou `make main`: Gera o programa principal (*main.mac*)
+- `make other`: Gera um programa *test.mac* a partir de um *test.as* (para
+testes)
+- `make other FILE=nome_do_arquivo`: Gera um programa *nome_do_arquivo.mac* a
+partir de um *nome_do_arquivo.as*
+- `make clean`: Remove todos os arquivos .mac e .maco contidos no diretório,
+recursivamente
 
-**Obs**: é importante pontuar que, para que a regra geral fincione corretamente
-é recomendável que os arquivos de teste sejam nomeados com prefixo 'test' ou
-seja, no formato 'test_alguma_coisa.as'.
+É importante pontuar que, para que a regra geral funcione corretamente é
+recomendável que os arquivos de teste sejam nomeados com prefixo *test* ou seja,
+no formato *test_alguma_coisa.as*.
+
+Além disso, os programas de teste gerados por esse makefile não podem possuir
+outras dependências.

@@ -4,9 +4,9 @@ fil = $(wildcard test*.as)
 src := $(wildcard *.as)
 src := $(filter-out $(fil), $(src))
 obj = $(src:.as=.maco)
-FILE?=main
+FILE?=test
 
-all: $(obj)
+main: $(obj)
 	./maclk main.mac $(obj)
 
 other: $(FILE).maco
