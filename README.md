@@ -37,12 +37,8 @@ armazenamento.
 
 Para isso, os caracteres são armazenados com a seguinte estrutura de memória:
 
-| $n_0$ | $c_{00}$ | $c_{01}$ | ... | $c_{0n_0}$ | $n_1$ | $c_{10}$ | $c_{11}$ | ... |
+| n<sub>0</sub> | c<sub>00</sub> | c<sub>01</sub> | ... | c<sub>0n<sub>0</sub></sub> | n<sub>1</sub> | c<sub>10</sub> | c<sub>11</sub> | ... |
 |:-----:|:--------:|:--------:|:---:|:----------:|:-----:|:--------:|:--------:|:---:|
 
-Onde $n_i$ representa a $i$-ésima palavra da linha que está sendo lido e
-$c_{ij}$ representa o $j$-ésimo caractere da mesma palavra.
-
-```math
-a + b = c
-```
+Onde n<sub>i</sub> representa a i-ésima palavra da linha que está sendo lido e
+c<sub>ij</sub> representa o j-ésimo caractere da mesma palavra.
