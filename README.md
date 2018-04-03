@@ -41,4 +41,21 @@ Para isso, os caracteres são armazenados com a seguinte estrutura de memória:
 |:-----:|:--------:|:--------:|:---:|:----------:|:-----:|:--------:|:--------:|:---:|
 
 Onde n<sub>i</sub> representa a i-ésima palavra da linha que está sendo lido e
-c<sub>ij</sub> representa o j-ésimo caractere da mesma palavra.
+c<sub>ij</sub> representa o j-ésimo caractere da mesma palavra. Assim,
+armazena-se todos os caracteres e os tamanhos de cada uma das palavras que irão
+conter a linha e, então, é feita a impressão da mesma, de forma apropriada.
+
+
+### 2. Makefile
+
+O arquivo makefile contido nesse projeto tem como intuito facilitar a geração do
+executável principal.
+
+A regra geral é para criar o mesmo e pode ser executada pele comando `make`.
+Existe uma outra regra, para testes, que é executada por `make other FILE=nome_do_arquivo`
+que serve para gerar programas de teste. Note que `nome_do_arquivo` não contém
+a extensão `.as`
+
+**Obs**: é importante pontuar que, para que a regra geral fincione corretamente
+é recomendável que os arquivos de teste sejam nomeados com prefixo 'test' ou
+seja, no formato 'test_alguma_coisa.as'.
