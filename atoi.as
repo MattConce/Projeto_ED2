@@ -1,15 +1,21 @@
+
+*****
+* Instância que recebe uma string representando um valor numérico e retorna o
+* valor numérico da mesma.
+*****
+
 EXTERN  atoi
 
 
-b           IS      $0
-int         IS      $1
-val         IS      $2
-char        IS      $3
-p           IS      $4
-i           IS      $5
+b           IS      $0                  * variável booleana
+int         IS      $1                  * valor numérico
+val         IS      $2                  * endereço da string passada
+char        IS      $3                  * caractere atual
+p           IS      $4                  * magnitude do valor da string (em potência de 10)
+i           IS      $5                  * variável auxiliar para calcular int
 
 
-atoi        XOR     int, int, int
+atoi        XOR     int, int, int       * inicializando as variáveis
             XOR     char, char, char
             XOR     val, val, val
             XOR     b, b, b
@@ -18,15 +24,15 @@ atoi        XOR     int, int, int
             SUBU    val, rSP, 16
             LDOU    val, val, 0
 
-find_p      LDBU    char, val, p
+find_p      LDBU    char, val, p        * determina a magnitude do valor numérico
             CMP     b, char, 0
             JZ      b, found_p
             ADD     p, p, 1
             JMP     find_p
 
-found_p     SUB     p, p, 1
+found_p     SUB     p, p, 1             * arruma o valor de p para a iteração
 
-convert     LDBU    char, val, p
+convert     LDBU    char, val, p        * converte a string para um número
             SUB     char, char, 48
             MUL     char, char, i
             ADD     int, int, char
@@ -36,6 +42,6 @@ convert     LDBU    char, val, p
             JN      b, end
             JMP     convert
 
-end         XOR     rA, rA, rA
+end         XOR     rA, rA, rA          * retorna o valor de int
             OR      rA, int, 0
             RET     1
