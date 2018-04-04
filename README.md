@@ -12,8 +12,8 @@ PR01 - Justificação de textos
 
 **Comandos para executar o programa**:
 
-- Para gerar *main.mac*: `make`
-- Para executar *main.mac*: `./macsim main.mac c < texto.txt`
+- Para gerar *just.mac*: `make`
+- Para executar *just.mac*: `./macsim just.mac c < texto.txt`
 (*c* é o número de colunas e *texto.txt* é o arquivo que contém o texto)
 
 
@@ -57,7 +57,7 @@ a impressão da mesma, de forma apropriada.
 O arquivo makefile contido nesse projeto tem como intuito facilitar a geração do
 executável principal. Ele pode ser executado das seguintes formas:
 
-- `make` ou `make main`: Gera o programa principal (*main.mac*) com todas as
+- `make` ou `make just`: Gera o programa principal (*just.mac*) com todas as
 suas dependências
 - `make other`: Gera um programa *test.mac* a partir de um *test.as* (para
 testes)

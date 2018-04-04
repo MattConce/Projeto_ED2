@@ -81,9 +81,13 @@ eof         CMP     b, m, 1         * executa quando se chega ao final do arquiv
 endeof      SUB     rA, rA, 1       * coloca -2 como valor de retorno, caso não haja mais o que imprimir
             JMP     end
 
-fullln      SUB     k, k, kp        * executa quando já não cabem mais palavras em uma linha
-            OR      rA, kp, 0       * retorna o valor atual de kp e armazena o mesmo na memória
-            SUB     m, m, kp        * note que a palavra excedente ainda não foi lida totalmente (necessariamente)
+fullln      CMP     b, n, 0         * executa quando já não cabem mais palavras em uma linha
+            JP      b, endfullln    * verifica se a linha não contém uma palavra maior que c
+            ADD     m, m, 1 
+            JMP     read
+endfullln   SUB     k, k, kp        * retorna o valor atual de kp e armazena o mesmo na memória
+            OR      rA, kp, 0       * note que a palavra excedente ainda não foi lida totalmente (necessariamente)
+            SUB     m, m, kp
             STB     kp, m, 0
 
 end         XOR     m, m, m

@@ -6,8 +6,8 @@ src := $(filter-out $(fil), $(src))
 obj = $(src:.as=.maco)
 FILE?=test
 
-main: $(obj)
-	./maclk main.mac $(obj)
+just: $(obj)
+	./maclk just.mac $(obj)
 
 other: $(FILE).maco
 	./maclk $(FILE).mac $^

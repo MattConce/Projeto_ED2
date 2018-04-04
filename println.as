@@ -19,6 +19,7 @@ l           IS      $7                  * quantidade de palavras no final (terã
 kp          IS      $8                  * quantidade de caracteres de uma palavra
 bp          IS      $9                  * variável auxiliar para carregar os valores passados pela intância chamadora
 lln         IS      $10                 * indica se é a última linha de um parágrafo
+eof         IS      $11                 * indica se é a última linha do arquivo
 
 
 println     SETW    rX, 2               * inicializando as variáveis
@@ -29,6 +30,9 @@ println     SETW    rX, 2               * inicializando as variáveis
             LDOU    kp, bp, 24
 
             XOR     lln, lln, lln
+            CMP     b, kp, 0            * verifica se já está no final do arquivo
+            JN      b, eofln
+            XOR     eof, eof, eof
 
             CMP     b, n, 0             * verifica se é uma linha vazia
             JZ      b, end
@@ -68,6 +72,7 @@ lastw       LDB     kp, m, 0            * imprime a última palavra de uma linha
 
 end         SETW    rY, 10              * finaliza imprimindo uma quebra de linha
             INT     #80
+            JP      eof, ret            * caso o arquivo esteja acabando, ignora a impressão de mais uma linha
             JZ      lln, ret            * caso seja o fim de um parágrafo, adiciona mais uma quebra de linha
             INT     #80
 ret         RET     4
@@ -81,3 +86,7 @@ lastln      SETW    N, 1                * executa quando a linha atual é a últ
             REST    rSP, $3, $6
             SETW    lln, 1
             JMP     lastw
+
+eofln       SETW    eof, 1              * executa quando a linha atual é a última do arquivo
+            XOR     kp, kp, kp
+            JMP     lastln
