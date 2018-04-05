@@ -49,7 +49,42 @@ a impressão da mesma, de forma apropriada.
 
 #### 1.2. Arquivos
 
-
+- **just.as**:
+    - Programa principal (*main*), que justifica o texto
+    - Chama os programas contidos em:
+        - **atoi.as**:
+            - Recebe uma string representando um número inteiro e a converte
+            para um inteiro.
+            - Retorna o número resultante.
+        - **justify.as**:
+            - Lê e imprime, justificado, o texto passado na entrada padrão.
+            - Recebe c, convertido para inteiro.
+            - Chama os programas contidos em:
+                - **readln.as**:
+                    - Lê e armazena o texto na entrada padrão até completar uma
+                    linha.
+                    - Recebe c e o valor retornado na última linha lida (0, se
+                    for a primeira linha)
+                    - Retorna o tamanho da última palavra que estava sendo lida.
+                - **println.as**:
+                    - Imprime a última linha lida.
+                    - Recebe c, o valor retornado por 'readln' e a quantidade de
+                    caracteres não-brancos e de palavras da linha que será
+                    impressa
+                    - Chama os programas contidos em:
+                        - **printws.as**:
+                            - Imprime as n primeiras palavras armazenadas na
+                            memória, separadas por sp espaços.
+                            - Recebe os valores de n e sp.
+                                - Chama os programas contidos em:
+                                    - **printw.as**:
+                                        - Imprime a primeira palavra armazenada
+                                        na memória.
+                                        - Recebe o tamanho da palavra.
+                                    - **printsp.as**:
+                                        - Imprime n espaços.
+                                        - Recebe o valor de n.
+                        - **printw.as**.
 
 
 ### 2. Makefile
@@ -63,8 +98,9 @@ suas dependências
 testes)
 - `make other FILE=nome_do_arquivo`: Gera um programa *nome_do_arquivo.mac* a
 partir de um *nome_do_arquivo.as*
-- `make clean`: Remove todos os arquivos .mac e .maco contidos no diretório,
-recursivamente
+- `make tar`: Cria uma pasta com o nomes dos autores, contendo este README, o
+makefile e os programas necessários para gerar *just.mac*
+- `make clean`: Remove todos os arquivos gerados pelas outras regras
 
 É importante pontuar que, para que a regra geral funcione corretamente é
 recomendável que os arquivos de teste sejam nomeados com prefixo *test* ou seja,

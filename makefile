@@ -4,6 +4,9 @@ fil = $(wildcard test*.as)
 src := $(wildcard *.as)
 src := $(filter-out $(fil), $(src))
 obj = $(src:.as=.maco)
+
+folder=leonardo_ikeda_matheus_conceicao_vitor_serio
+
 FILE?=test
 
 just: $(obj)
@@ -12,6 +15,12 @@ just: $(obj)
 other: $(FILE).maco
 	./maclk $(FILE).mac $^
 
+tar: $(src) makefile README.md
+	[ -d $(folder) ] && rm -rf $(folder)
+	mkdir $(folder)
+	cp -t $(folder) README.md makefile $^
+	tar -czf $(folder).tar.gz $(folder)
+
 %.maco: %.as
 	./macas $^
 
@@ -19,4 +28,4 @@ other: $(FILE).maco
 	./maclk $@ $^
 
 clean:
-	rm -rf *.maco *.mac
+	rm -rf *.maco *.mac $(folder)*
