@@ -9,6 +9,9 @@ PR01 - Justificação de textos
     Matheus             ()
     Vitor Barbosa Sério (7627627)
 
+Esse arquivo pode ser melhor vizualizado na página do nosso diretório no GitHub:
+
+https://github.com/MattConce/Projeto_ED2
 
 **Comandos para executar o programa**:
 
@@ -76,14 +79,14 @@ a impressão da mesma, de forma apropriada.
                             - Imprime as n primeiras palavras armazenadas na
                             memória, separadas por sp espaços.
                             - Recebe os valores de n e sp.
-                                - Chama os programas contidos em:
-                                    - **printw.as**:
-                                        - Imprime a primeira palavra armazenada
-                                        na memória.
-                                        - Recebe o tamanho da palavra.
-                                    - **printsp.as**:
-                                        - Imprime n espaços.
-                                        - Recebe o valor de n.
+                            - Chama os programas contidos em:
+                                - **printw.as**:
+                                    - Imprime a primeira palavra armazenada
+                                    na memória.
+                                    - Recebe o tamanho da palavra.
+                                - **printsp.as**:
+                                    - Imprime n espaços.
+                                    - Recebe o valor de n.
                         - **printw.as**.
 
 
