@@ -5,9 +5,9 @@ PR01 - Justificação de textos
 
 **Autores**:
 
-    Leonardo Ikeda      ()
-    Matheus             ()
-    Vitor Barbosa Sério (7627627)
+    Leonardo Martinez Ikeda  (10262822)
+    Matheus Santos Conceição (10297672)
+    Vitor Barbosa Sério       (7627627)
 
 Esse arquivo pode ser melhor vizualizado na página do nosso diretório no GitHub:
 

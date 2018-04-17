@@ -1,14 +1,3 @@
-********************************************************************************
-*   MAC0323 - Algoritmos e Estrutura de Dados II
-*   PR01 - Justificação de textos
-*
-*   Autores:  Leonardo Ikeda      ()
-*             Matheus             ()
-*             Vitor Barbosa Sério (7627627)
-*
-*   Data: 04/04/2018
-*
-********************************************************************************
 
 *****
 * Programa que recebe na entrada padrão um texto e imprime na saída padrão o
