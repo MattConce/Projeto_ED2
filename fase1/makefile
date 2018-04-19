@@ -18,7 +18,7 @@ other: $(FILE).maco
 	./maclk $(FILE).mac $^
 
 tar: $(src) makefile README.md $(comp)
-	[ -d $(folder) ] && rm -rf $(folder)
+	[ -d $(folder) ] && rm -rf $(folder) || :
 	mkdir $(folder)
 	cp -t $(folder) $^
 	tar -czf $(folder).tar.gz $(folder)
