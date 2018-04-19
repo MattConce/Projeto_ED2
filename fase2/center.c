@@ -2,6 +2,11 @@
 #include <stdlib.h>
 #include "buffer.h"
 
+#define bdata (B->data)
+#define bdataat(X) (B->data + (X))
+#define memsize (B->member_size)
+#define buffsize (B->buffer_size)
+#define bp (B->p)
 
 int main(int argc, char const *argv[]) {
 
@@ -36,12 +41,10 @@ int main(int argc, char const *argv[]) {
         }
 
         // pega o último caractere lido
-        lc = *((char *) B->data + B->p);
-
-        printf("%3d: n = %3d, sp = %3d, lc = %3d, p = %3d\n", line, n, sp, (int) lc, (int) B->p);
+        lc = *((char *) bdataat(bp));
 
         // imprime a linha no arquivo de saida
-        fprintf(out, "%s", ((char *) B->data + 1));
+        fprintf(out, "%s", ((char *) bdataat(1)));
     }
 
     // fecha os arquivos

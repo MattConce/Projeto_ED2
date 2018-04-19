@@ -4,38 +4,44 @@
 #include "buffer.h"
 
 
+#define bdata (B->data)
+#define bdataat(X) (B->data + (X))
+#define memsize (B->member_size)
+#define buffsize (B->buffer_size)
+#define bp (B->p)
+
 Buffer *buffer_create(size_t member_size) {
   Buffer *B = (Buffer*)malloc(sizeof(Buffer));
-  B->data = (void*)malloc(sizeof(member_size)); // cria um vetor para armazenar dados to tamanho de member_size
-  B->buffer_size = 1;
-  B->member_size = member_size;
-  B->p = 0;
+  bdata = (void*)malloc(sizeof(member_size)); // cria um vetor para armazenar dados to tamanho de member_size
+  buffsize = 1;
+  memsize = member_size;
+  bp = 0;
   return B;
 }
 
 void buffer_destroy(Buffer *B) {
-  free(B->data);
-  B->data = NULL;
+  free(bdata);
+  bdata = NULL;
   free(B);
   B = NULL;
 }
 
 void buffer_reset(Buffer *B) {
-  size_t member_size = B->member_size;
+  size_t member_size = memsize;
   buffer_destroy(B);
   B = buffer_create(member_size);
 }
 
 void *buffer_push_back(Buffer *B) {
 
-  if (B->p == B->buffer_size) {
-    int new_size = 2*(B->buffer_size);
-    B->data = (void*)realloc(B->data, (new_size)*sizeof(B->member_size));
-    B->buffer_size = new_size;
+  if (bp == buffsize) {
+    int new_size = 2*(buffsize);
+    bdata = (void*)realloc(bdata, (new_size)*sizeof(memsize));
+    buffsize = new_size;
   }
 
-  B->p++;
-  return B->data + B->p;
+  bp++;
+  return bdataat(bp);
 }
 
 int read_line(FILE *input, Buffer *B) {
@@ -57,19 +63,19 @@ int read_line(FILE *input, Buffer *B) {
     n++;
   }
 
+  // remove espaços do final da linha;
+  while(isspace(*((char *) bdataat(bp)))) {
+      bp--;
+      n--;
+  }
+
   // inclui o caractere '\n' na linha
   if (c == '\n')
     buffer_push_char(B, c);
 
-  // remove espaços do final da linha;
-  while(isspace(*((char *) B->data + (B->p-1)))) {
-      B->p--;
-      n--;
-  }
-
   // adiciona \0 no final de data (indica final da string)
   buffer_push_char(B, '\0');
-  B->p--;
+  bp--;
 
   // devolve o número de caracteres na linha
   return n;
