@@ -19,12 +19,24 @@ int main(int argc, char const *argv[]) {
     Buffer *B = buffer_create(sizeof(char));
     char lc = '\n';
     int line = 0;
+    int n2 = 0;
+    int n3 = 0;
 
     while (!feof(in)) {
 
-        line++;
-
         int n = read_line(in, B);
+
+        if (n == 0) {
+            n3 = 0;
+            continue;
+        }
+        if (n2 != 0 && n3 == 0) {
+            fprintf(out, "\n");
+        }
+
+        n3 = 1;
+
+        line++;
 
         // determinando a quandidade de espaços para se adicionar à esquerda
         int sp;
@@ -45,6 +57,8 @@ int main(int argc, char const *argv[]) {
 
         // imprime a linha no arquivo de saida
         fprintf(out, "%s", ((char *) bdataat(1)));
+
+        n2 = n;
     }
 
     // fecha os arquivos

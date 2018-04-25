@@ -21,7 +21,7 @@ tar: $(src) makefile README.md $(comp)
 	[ -d $(folder) ] && rm -rf $(folder) || :
 	mkdir $(folder)
 	cp -t $(folder) $^
-	tar -czf $(folder).tar.gz $(folder)
+	tar -cvzf $(folder).tgz $(folder)
 
 %.maco: %.as
 	./macas $^

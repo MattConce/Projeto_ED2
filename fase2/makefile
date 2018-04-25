@@ -10,7 +10,7 @@ tar: $(src) $(hdr) makefile README.md
 	[ -d $(folder) ] && rm -rf $(folder) || :
 	mkdir $(folder)
 	cp -t $(folder) $^
-	tar -czf $(folder).tar.gz $(folder)
+	tar -cvzf $(folder).tgz $(folder)
 
 clean:
 	rm -rf *.o $(folder)*
