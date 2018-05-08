@@ -28,7 +28,7 @@ void stable_destroy(SymbolTable table) {
 
 InsertionResult stable_insert(SymbolTable table, const char *key) {
   InsertionResult res;
-  unsigned long hash = 5381;
+  unsigned long hash = table->m;
   int c;
   while (c = *key++) {
     hash = ((hash << 5) + hash) + c;
