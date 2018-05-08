@@ -37,12 +37,11 @@ InsertionResult stable_insert(SymbolTable table, const char *key) {
     if (x->key == key) {
       res.new = 1;
       *res.data = x->val;
+      return res;
     }
-    else {
-      res.new = 0;
-    }
-    return res;
   }
+  res.new = 0;  
+  return res;
 }
 
 int visit(const char *key, EntryData *data) {
