@@ -3,7 +3,7 @@
 typedef struct node{
   char *key;
   EntryData val;
-  struct Node *next;
+  struct node *next;
 }Node;
 
 struct stable_s {
@@ -11,3 +11,5 @@ struct stable_s {
   int m; // tamanho da tabela
   Node **hash_table; // vetor para hash table
 };
+
+void put(SymbolTable table, InsertionResult);

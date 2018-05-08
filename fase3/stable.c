@@ -25,3 +25,25 @@ void stable_destroy(SymbolTable table) {
   free(table->hash_table);
   free(table);
 }
+
+InsertionResult stable_insert(SymbolTable table, const char *key) {
+  InsertionResult res;
+  unsigned long hash = table->m;
+  int c;
+  while (c = *key++) {
+    hash = ((hash << 5) + hash) + c;
+  }
+  for (Node *x = table->hash_table[hash]; x != NULL; x = x->next) {
+    if (x->key == key) {
+      res.new = 1;
+      *res.data = x->val;
+      return res;
+    }
+  }
+  res.new = 0;  
+  return res;
+}
+
+int visit(const char *key, EntryData *data) {
+
+}
