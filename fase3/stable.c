@@ -40,8 +40,23 @@ InsertionResult stable_insert(SymbolTable table, const char *key) {
       return res;
     }
   }
-  res.new = 0;  
+  res.new = 0;
   return res;
+}
+
+EntryData *stable_find(SymbolTable table, const char *key) {
+  EntryData *ptr = NULL;
+  unsigned long hash = table->m;
+  int c;
+  while (c = *key++) {
+    hash = ((hash << 5) + hash) + c;
+  }
+  for (Node *x = table->hash_table[hash]; x != NULL; x = x->next) {
+    if (x->key == key) {
+      *ptr = x->val;
+    }
+  }
+  return ptr;
 }
 
 int visit(const char *key, EntryData *data) {
