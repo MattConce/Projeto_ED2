@@ -1,10 +1,10 @@
 
 
-typedef struct node{
+typedef struct Node{
   char *key;
   EntryData val;
-  struct node *next;
-}Node;
+  struct Node *next;
+} Node;
 
 struct stable_s {
   int n; // número de pares chave-valor
