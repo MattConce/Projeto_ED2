@@ -12,5 +12,8 @@ struct stable_s {
   Node **hash_table; // vetor para hash table
 };
 
-// void put(SymbolTable table, const char *key, EntryData *data);
-// EntryData get(SymbolTable table, )
+static Node* node_create();
+static void node_destroy(Node*);
+static unsigned long hash(const char*, int);
+static SymbolTable resize(SymbolTable);
+static void rehash(SymbolTable, const char, EntryData);
