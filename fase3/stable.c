@@ -5,7 +5,6 @@
 
 #define tablem (table.m)
 #define tablen (table.n)
-#define alpha (table.m/table.n)
 #define tableht (table.hash_table)
 #define xnext (x->next)
 #define xkey (x->key)
@@ -38,9 +37,11 @@ InsertionResult stable_insert(SymbolTable table, const char *key) {
   InsertionResult res;
 
   unsigned long hash = hash(key, tablem);
+   if (tablen >= 10*tablem)
+    table = resize(table);
 
   for (Node *x = tableht[hash]; x != NULL; x = xnext) {
-    if (xkey == key) {
+    if (strcmp(xkey, key) == 0) {
       res.new = 0;
       res.data = &xval;
       return res;
@@ -57,16 +58,12 @@ EntryData *stable_find(SymbolTable table, const char *key) {
   unsigned long hash = hash(key, tablem);
 
   for (Node *x = tableht[hash]; x != NULL; x = xnext) {
-    if (xkey == key) {
+    if (strcmp(xkey, key) == 0) {
       *ptr = xval;
     }
   }
 
   return ptr;
-}
-
-int visit(const char *key, EntryData *data) {
-
 }
 
 static Node* node_create() {
@@ -107,16 +104,28 @@ static SymbolTable resize(SymbolTable table) {
 
   for (int i = 0; i < tablem; i++) {
     for (Node *x = tableht[i]; x; xnext) {
-      put(newtbl, xkey, xvalue);
+      rehash(newtbl, xkey, xvalue);
     }
   }
 
   return &newtbl;
 }
 
-// void put(SymbolTable table, const char *key, EntryData *data) {
-//   if ()
-// }
+static void rehash(SymbolTable table, const char *key, EntryData *data) {
+
+    int hash = hash(table, key);
+    Node *x = tableht[hash];
+
+    while (x != NULL)
+      x = xnext;
+
+    x = node_create();
+    xkey = key;
+    xval = data;
+    xnext = NULL;
+    x = xnext;
+
+}
 
 int stable_visit(SymbolTable table, int (*visit)(const char *key, EntryData *data)) {
   int bool = 1;
@@ -124,7 +133,7 @@ int stable_visit(SymbolTable table, int (*visit)(const char *key, EntryData *dat
     for (Node *x = tableht[i]; x; xnext) {
       bool = visit(xkey, xval);
       if (bool) {
-        return 0;        
+        return 0;
       }
     }
   }
