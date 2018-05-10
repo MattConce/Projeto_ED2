@@ -91,7 +91,7 @@ static unsigned long hash(const char* key, int M) {
   int c;
 
   while (c = *key++) {
-    hash = (((hash << 5) + hash) + c)%M;    
+    hash = (((hash << 5) + hash) + c)%M;
   }
 
   return hash;
@@ -118,14 +118,18 @@ static SymbolTable resize(SymbolTable table) {
 //   if ()
 // }
 
-int stable_visit(SymbolTable table,
-                 int (*visit)(const char *key, EntryData *data)) {
-                   for (int i = 0; i < m; i++) {
-                     for (Node *x = tableht[i]; x; xnext) {
-                       int bool = visit(xkey, xval);
-                     }
-                   }
-                 }
+int stable_visit(SymbolTable table, int (*visit)(const char *key, EntryData *data)) {
+  int bool = 1;
+  for (int i = 0; i < m; i++) {
+    for (Node *x = tableht[i]; x; xnext) {
+      bool = visit(xkey, xval);
+      if (bool) {
+        return 0;        
+      }
+    }
+  }
+  return bool;
+}
 
 int main() {
 
