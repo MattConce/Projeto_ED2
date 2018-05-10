@@ -16,4 +16,4 @@ static Node* node_create();
 static void node_destroy(Node*);
 static unsigned long hash(const char*, int);
 static SymbolTable resize(SymbolTable);
-static void rehash(SymbolTable, const char, EntryData);
+static void rehash(SymbolTable, char*, EntryData);
