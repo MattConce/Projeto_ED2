@@ -87,11 +87,11 @@ static void node_destroy(Node *x) {
 
 static unsigned long hash(const char* key, int M) {
 
-  unsigned long hash = M;
+  unsigned long hash = 5381;
   int c;
 
   while (c = *key++) {
-    hash = ((hash << 5) + hash) + c;
+    hash = (((hash << 5) + hash) + c)%M;    
   }
 
   return hash;
@@ -120,8 +120,11 @@ static SymbolTable resize(SymbolTable table) {
 
 int stable_visit(SymbolTable table,
                  int (*visit)(const char *key, EntryData *data)) {
-                   for (tab)
-                   int bool = visit()
+                   for (int i = 0; i < m; i++) {
+                     for (Node *x = tableht[i]; x; xnext) {
+                       int bool = visit(xkey, xval);
+                     }
+                   }
                  }
 
 int main() {
