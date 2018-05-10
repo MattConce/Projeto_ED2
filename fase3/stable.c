@@ -5,6 +5,7 @@
 
 #define tablem (table.m)
 #define tablen (table.n)
+#define alpha (table.m/table.n)
 #define tableht (table.hash_table)
 #define xnext (x->next)
 #define xkey (x->key)
@@ -112,6 +113,16 @@ static SymbolTable resize(SymbolTable table) {
 
   return &newtbl;
 }
+
+// void put(SymbolTable table, const char *key, EntryData *data) {
+//   if ()
+// }
+
+int stable_visit(SymbolTable table,
+                 int (*visit)(const char *key, EntryData *data)) {
+                   for (tab)
+                   int bool = visit()
+                 }
 
 int main() {
 

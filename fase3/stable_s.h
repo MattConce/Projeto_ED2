@@ -12,4 +12,5 @@ struct stable_s {
   Node **hash_table; // vetor para hash table
 };
 
-void put(SymbolTable table, InsertionResult);
+void put(SymbolTable table, const char *key, EntryData *data);
+EntryData get(SymbolTable table, )
