@@ -33,15 +33,17 @@ InsertionResult stable_insert(SymbolTable table, const char *key) {
   unsigned long i = hash(key, tablem);
    if (tablen >= 10*tablem)
     table = resize(table);
-
   Node *x;
   for (x = tableht[i]; x != NULL; x = xnext) {
-    if (strcmp(xkey, key) == 0) {
+    // printf("%lu\n",i);
+    if (xkey != NULL && strcmp(xkey, key) == 0) {
+      printf("i = %lu key = %s xkey = %s\n",i, key, xkey);
       res.new = 0;
       res.data = &xval;
       return res;
     }
   }
+  // puts("ok");
   x = node_create();
   res.new = 1;
   res.data = &xval;
@@ -71,7 +73,7 @@ static Node* node_create() {
   Node *x = (Node*) malloc(sizeof(Node));
 
   xkey = NULL;
-  // xval =
+  xval.i = 0;
   xnext = NULL;
 
   return x;
@@ -107,7 +109,7 @@ static SymbolTable resize(SymbolTable table) {
       rehash(newtbl, xkey, xval);
     }
   }
-
+  free(table);
   return newtbl;
 }
 

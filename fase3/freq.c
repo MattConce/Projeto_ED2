@@ -11,6 +11,7 @@ void read_words(SymbolTable table) {
       continue;
     }
     else if (isspace(c) || c == EOF) {
+      curr_word[i++] = '\0';
       char *key = curr_word;
       InsertionResult res = stable_insert(table, key);
       puts(key);
