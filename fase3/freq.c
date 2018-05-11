@@ -3,9 +3,28 @@
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include "stable_s.h"
+#include "stable.h"
 #define TRUE 1
 #define FALSE 0
 #define MAX 500
+#define tablem (table->m)
+#define tablen (table->n)
+#define tableht (table->hash_table)
+#define xnext (x->next)
+#define xkey (x->key)
+#define xval (x->val)
+
+
+static void put(SymbolTable table, char *key, EntryData val) {
+  InsertionResult res = stable_insert(table, key);
+  *(res.data) = val;
+}
+
+static EntryData get(SymbolTable table, char *key) {
+  EntryData *val = stable_find(table, key);
+  return *val;
+}
 
 void read_words() {
   char c;

@@ -1,4 +1,7 @@
-
+#include <stdlib.h>
+#include "stable.h"
+#include <ctype.h>
+#include <string.h>
 
 typedef struct Node{
   char *key;
