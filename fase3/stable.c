@@ -1,15 +1,5 @@
-#include <stdlib.h>
-#include "stable.h"
 #include "stable_s.h"
-#include <ctype.h>
-#include <string.h>
 
-#define tablem (table->m)
-#define tablen (table->n)
-#define tableht (table->hash_table)
-#define xnext (x->next)
-#define xkey (x->key)
-#define xval (x->val)
 
 SymbolTable stable_create() {
 
@@ -121,7 +111,7 @@ static SymbolTable resize(SymbolTable table) {
   return newtbl;
 }
 
-static void rehash(SymbolTable table,  char *key, EntryData data) {
+static void rehash(SymbolTable table, const char *key, EntryData data) {
 
     int i = hash(key, tablem);
     Node *x;
@@ -143,8 +133,4 @@ int stable_visit(SymbolTable table, int (*visit)(const char *key, EntryData *dat
     }
   }
   return bool;
-}
-
-int main() {
-
 }

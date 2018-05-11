@@ -1,6 +1,9 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include "stable_s.h"
 #include "stable.h"
 
+
 void read_words(SymbolTable);
-// static void put(SymbolTable table, char *key, EntryData val,
-//   InsertionResult *(stable_insert)(SymbolTable table, const char *key));
-// static EntryData get(SymbolTable table, char *key);
