@@ -7,22 +7,24 @@
 #define FALSE 0
 #define MAX 500
 
-void read_words(char **words, int *w) {
+void read_words() {
   char c;
   char curr_word[MAX];
   int is_word = FALSE;
   int i = 0;
   while(TRUE) {
-    c = getchar();
-    if (isblank(c) && !is_word) {
+    c = fgetc(stdin);
+    if (isspace(c) && !is_word) {
       continue;
     }
-    else if (isblank(c) || c == EOF) {
+    else if (isspace(c) || c == EOF) {
       puts(curr_word);
       is_word = FALSE;
       strcpy(curr_word, "");
       i = 0;
-      if (c == EOF) return;
+      if (c == EOF) {
+        break;
+      }
     }
     else {
       curr_word[i++] = c;
@@ -32,9 +34,10 @@ void read_words(char **words, int *w) {
 }
 
 int main() {
-  char *words[MAX];
-  int w = 0;
+  // char *words[MAX];
+  // int w = 0;
+  read_words();
   puts("Done");
-  read_words(words, &w);
   // printf("%d\n", w);
+  return 1;
 }

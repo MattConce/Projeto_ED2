@@ -1,2 +1,2 @@
 
-void read_words(char**, int*);
+void read_words();
