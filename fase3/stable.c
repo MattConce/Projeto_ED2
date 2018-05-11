@@ -8,7 +8,7 @@ SymbolTable stable_create() {
   //                      .hash_table = (Node**) malloc(tablem * sizeof(Node*))};
   SymbolTable table = malloc(sizeof(SymbolTable));
   table->n = 0;
-  table->m = 4;
+  table->m = 14;
   table->hash_table = (Node**) malloc(table->m*sizeof(Node));
   for (int i = 0; i < table->m; i++) {
     table->hash_table[i] = node_create();
@@ -35,7 +35,7 @@ InsertionResult stable_insert(SymbolTable table, const char *key) {
     table = resize(table);
   Node *x;
   for (x = tableht[i]; x != NULL; x = xnext) {
-    // printf("%lu\n",i);
+    printf("%lu\n",i);
     if (xkey != NULL && strcmp(xkey, key) == 0) {
       printf("i = %lu key = %s xkey = %s\n",i, key, xkey);
       res.new = 0;
@@ -50,6 +50,8 @@ InsertionResult stable_insert(SymbolTable table, const char *key) {
   xkey = key;
   xnext = tableht[i];
   tableht[i] = x;
+  puts(xkey);
+  node_destroy(x);
   return res;
 }
 
