@@ -63,6 +63,8 @@ Node *node_create(const char *key) {
 
 void node_destroy(Node *x) {
     if (xnext != NULL) node_destroy(xnext);
+    free(xkey);
+    xkey = NULL;
     free(x);
     x = NULL;
 }
