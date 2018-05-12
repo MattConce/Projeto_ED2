@@ -3,6 +3,7 @@
 #include "stable_s.h"
 #include <ctype.h>
 #include <string.h>
+#include <stdio.h>
 
 #define tablem (table->m)
 #define tablen (table->n)
@@ -41,35 +42,50 @@ InsertionResult stable_insert(SymbolTable table, const char *key) {
   InsertionResult res;
 
   unsigned long i = hash(key, tablem);
-   if (tablen >= 10*tablem)
-    table = resize(table);
+  /*if (tablen >= 10*tablem)
+    table = resize(table);*/
 
-  Node *x;
-  for (x = tableht[i]; x != NULL; x = xnext) {
-    if (strcmp(xkey, key) == 0) {
+  for (Node *x = tableht[i]; x != NULL; x = xnext) {
+    if (xkey != NULL && strcmp(xkey, key) == 0) {
       res.new = 0;
-      res.data = &xval;
+      res.data = xval;
+      //printf("res.data is %p for %s\n", res.data, key);
       return res;
     }
   }
-  x = node_create();
+  Node *y = node_create();
+  y = node_create();
   res.new = 1;
-  res.data = &xval;
-  xkey = key;
-  xnext = tableht[i];
-  tableht[i] = x;
+  res.data = y->val;
+  //printf("res.data is %p for %s\n", res.data, key);
+  y->key = key;
+  y->next = tableht[i];
+  tableht[i] = y;
+  tablen++;
   return res;
 }
 
 EntryData *stable_find(SymbolTable table, const char *key) {
+
+  // verificar todos os elementos da tabela
+  /*Node *test;
+  int j = 0;
+  while (j < tablem) {
+    test = tableht[j];
+    while (test->next != NULL) {
+      printf("position %d, key is %s, val adress is %p\n", j, test->key, test->val);
+      test = test->next;
+    }
+    j++;
+    }*/
 
   EntryData *ptr = NULL;
 
   unsigned long i = hash(key, tablem);
 
   for (Node *x = tableht[i]; x != NULL; x = xnext) {
-    if (strcmp(xkey, key) == 0) {
-      *ptr = xval;
+    if (xkey != NULL && strcmp(xkey, key) == 0) {
+      ptr = xval;
     }
   }
 
@@ -81,8 +97,11 @@ static Node* node_create() {
   Node *x = (Node*) malloc(sizeof(Node));
 
   xkey = NULL;
-  // xval =
   xnext = NULL;
+  xval = (EntryData*) malloc(sizeof(EntryData));
+  xval->i = 0;
+  xval->str = (char*) malloc(500 * sizeof(char));
+  xval->p = malloc(sizeof(void));
 
   return x;
 }
@@ -98,16 +117,16 @@ static unsigned long hash(const char* key, int M) {
   int c;
 
   while (c = *key++) {
-    hash = (((hash << 5) + hash) + c)%M;
+    hash = (((hash << 5) + hash) + c);
   }
 
-  return hash;
+  return hash % M;
 }
 
 static SymbolTable resize(SymbolTable table) {
 
   SymbolTable newtbl = (SymbolTable) malloc(sizeof(SymbolTable));
-  newtbl->n = tablen;
+  /*newtbl->n = tablen;
   int M = 2 * tablem;
   newtbl->m = M;
   newtbl->hash_table = (Node**) malloc(M * sizeof(Node*));
@@ -117,34 +136,30 @@ static SymbolTable resize(SymbolTable table) {
       rehash(newtbl, xkey, xval);
     }
   }
-
+  */
   return newtbl;
 }
 
 static void rehash(SymbolTable table,  char *key, EntryData data) {
 
-    int i = hash(key, tablem);
+  /*int i = hash(key, tablem);
     Node *x;
     x = node_create();
     xkey = key;
     xval = data;
     xnext = tableht[i];
-    tableht[i] = x;
+    tableht[i] = x;*/
 }
 
 int stable_visit(SymbolTable table, int (*visit)(const char *key, EntryData *data)) {
   int bool = 1;
   for (int i = 0; i < tablem; i++) {
     for (Node *x = tableht[i]; x; xnext) {
-      bool = visit(xkey, &xval);
+      bool = visit(xkey, xval);
       if (bool) {
         return 0;
       }
     }
   }
   return bool;
-}
-
-int main() {
-
 }

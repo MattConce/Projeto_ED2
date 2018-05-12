@@ -59,37 +59,31 @@
 //   }
 // }
 
-int main() {
+int main(int argc, char const *argv[]) {
+
+  FILE *in = fopen(argv[1], "r");
+  char *word = (char*) malloc(2048 * sizeof(char));
   SymbolTable table = stable_create();
-  char c;
-  char curr_word[MAX];
-  int is_word = FALSE;
-  int i = 0;
-  while(TRUE) {
-    c = fgetc(stdin);
-    if (isspace(c) && !is_word) {
-      continue;
-    }
-    else if (isspace(c) || c == EOF) {
-      char *key = curr_word;
-      InsertionResult res = stable_insert(table, key);
-      if (res.new == 0) {
-        res.data->i = (res.data->i)++;
-      }
-      else {
-        res.data->i = 1;
-      }
-      is_word = FALSE;
-      strcpy(curr_word, "");
-      i = 0;
-      if (c == EOF) {
-        break;
-      }
-    }
+
+  while (fscanf(in, "%s", word) != EOF) {
+
+    //InsertionResult *res = (InsertionResult*) malloc(sizeof(InsertionResult));
+    InsertionResult res;
+    res = stable_insert(table, word);
+    if (res.new == 0) res.data->i = (res.data->i)++;
     else {
-      curr_word[i++] = c;
-      is_word = TRUE;
+      int *one = 1;
+      res.data->i = one;
     }
+    word = (char*) malloc(2048 * sizeof(char)); // achar outro memadress para prox. word
   }
-  return 1;
+
+  // unit testing
+  char *w = "The";
+  EntryData *d = stable_find(table, w);
+  printf("%d value for %s, pointer is [%p]\n", d->i, w, d->i);
+
+  w = "quick";
+  d = stable_find(table, w);
+  printf("%d value for %s, pointer is [%p]\n", d->i, w, d->i);
 }

@@ -4,8 +4,8 @@
 #include <string.h>
 
 typedef struct Node{
-  char *key;
-  EntryData val;
+  const char *key;
+  EntryData *val;
   struct Node *next;
 } Node;
 
