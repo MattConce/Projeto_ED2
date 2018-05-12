@@ -13,20 +13,18 @@
 #define FALSE 0
 #define MAX 500
 
-typedef struct Node{
-  const char *key;
+typedef struct Node {
+  const char * key;
   EntryData val;
   struct Node *next;
 } Node;
 
+typedef struct Stack {
+  Node *head;
+} Stack;
+
 struct stable_s {
   int n; // número de pares chave-valor
   int m; // tamanho da tabela
-  Node **hash_table; // vetor para hash table
+  Stack **hash_table; // vetor para hash table
 };
-
-static Node* node_create();
-static void node_destroy(Node*);
-static unsigned long hash(const char*, int);
-static SymbolTable resize(SymbolTable);
-static void rehash(SymbolTable, const char*, EntryData);
