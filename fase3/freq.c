@@ -59,6 +59,11 @@
 //   }
 // }
 
+int print_visited_int(const char *key, EntryData *data) {
+  printf("%s %d\n", key, data->i);
+  return 1;
+}
+
 int main(int argc, char const *argv[]) {
 
   FILE *in = fopen(argv[1], "r");
@@ -74,33 +79,14 @@ int main(int argc, char const *argv[]) {
     //printf("(RESULT) res from main address: [%p], data \"value\": (%d)\n", &res, res.data);
     if (res.new == 0) {
       res.data->i++;
-      printf("int: %d, pointer: %p\n", res.data->i, &res.data->i);
+      //printf("int: %d, pointer: %p\n", res.data->i, &res.data->i);
     }
     else {
-      int *one = malloc(sizeof(int));
-      //printf("*one addressed at [%p], points to [%p]\n", &one, one);
-      *one = 1;
-      //printf("*one addressed at [%p], points to [%p] (POST)\n", &one, one);
-      //printf("The value is... %d!\n", *one);
-      res.data->i = *one;
+      res.data->i = 1;
     }
     word = (char*) malloc(2048 * sizeof(char)); // achar outro memadress para prox. word
   }
 
-  // unit testing
-  char *w = "apple";
-  EntryData *d = stable_find(table, w);
-  printf("%d value for \"%s\", pointer is [%p]\n", d->i, w, &d->i);
-
-  w = "grape";
-  d = stable_find(table, w);
-  printf("%d value for \"%s\", pointer is [%p]\n", d->i, w, &d->i);
-
-  w = "00000";
-  d = stable_find(table, w);
-  printf("%d value for \"%s\", pointer is [%p]\n", d->i, w, &d->i);
-
-  w = "mango";
-  d = stable_find(table, w);
-  printf("%d value for \"%s\", pointer is [%p]\n", d->i, w, &d->i);
+  int test = stable_visit(table, print_visited_int);
+  printf("returned %d", test);
 }

@@ -64,6 +64,7 @@ InsertionResult stable_insert(SymbolTable table, const char *key) {
   tableht[i] = y;
   tablen++;
   //printf("ir in insert address: [%p], data value: (%d)\n", &res, res.data);
+  //printf("hash: %d, key inserted: \"%s\", next points to [%p]\n", i, key, y->next);
   return res;
 }
 
@@ -88,6 +89,7 @@ EntryData *stable_find(SymbolTable table, const char *key) {
   for (Node *x = tableht[i]; x != NULL; x = xnext) {
     if (xkey != NULL && strcmp(xkey, key) == 0) {
       ptr = xval;
+      break;
       //printf("evaluating %s, xval pointer is [%p], with int value (%d), returning ptr [%p]\n", key, xval, xval, ptr);
     }
   }
@@ -101,6 +103,7 @@ static Node* node_create() {
   xkey = NULL;
   xnext = NULL;
   xval = (EntryData*) malloc(sizeof(EntryData));
+  //xval->i = 0;
 
   return x;
 }
@@ -151,11 +154,12 @@ static void rehash(SymbolTable table,  char *key, EntryData data) {
 }
 
 int stable_visit(SymbolTable table, int (*visit)(const char *key, EntryData *data)) {
-  int bool = 1;
+  int bool = 0;
   for (int i = 0; i < tablem; i++) {
-    for (Node *x = tableht[i]; x; xnext) {
+    // [xnext != NULL] em vez de [x != NULL] meio gambiarra, ver direito depois
+    for (Node *x = tableht[i]; xnext != NULL; x = xnext) {
       bool = visit(xkey, xval);
-      if (bool) {
+      if (!bool) {
         return 0;
       }
     }
