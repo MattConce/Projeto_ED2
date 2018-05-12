@@ -33,11 +33,11 @@ InsertionResult stable_insert(SymbolTable table, const char *key) {
   unsigned long i = hash(key, tablem);
    if (tablen >= 10*tablem)
     table = resize(table);
-  Node *x;
+  Node *x = NULL;
   for (x = tableht[i]; x != NULL; x = xnext) {
-    printf("%lu\n",i);
+    printf("key = %s i = %lu\n",key, i);
     if (xkey != NULL && strcmp(xkey, key) == 0) {
-      printf("i = %lu key = %s xkey = %s\n",i, key, xkey);
+      printf("i = %lu key = %s xkey = %s\n",i, key, xkey);      
       res.new = 0;
       res.data = &xval;
       return res;
@@ -45,13 +45,15 @@ InsertionResult stable_insert(SymbolTable table, const char *key) {
   }
   // puts("ok");
   x = node_create();
+  Node *old_first = tableht[i];
   res.new = 1;
-  res.data = &xval;
   xkey = key;
-  xnext = tableht[i];
+  xnext = old_first;
   tableht[i] = x;
+  res.data = &xval;
   puts(xkey);
-  node_destroy(x);
+  printf("val = %d\n",tableht[i]->val.i);
+  puts("-------------");
   return res;
 }
 
@@ -90,7 +92,7 @@ static unsigned long hash(const char* key, int M) {
 
   unsigned long hash = 5381;
   int c;
-
+  printf("dentro do hash key = %s\n",key);
   while (c = *key++) {
     hash = (((hash << 5) + hash) + c)%M;
   }

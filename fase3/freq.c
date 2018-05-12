@@ -15,7 +15,7 @@ void read_words(SymbolTable table) {
       char *key = curr_word;
       InsertionResult res = stable_insert(table, key);
       puts(key);
-      if (res.new == 0) {
+      if (res.new == 0) {      
         res.data->i = (res.data->i)++;
       }
       else {
