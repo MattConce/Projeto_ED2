@@ -1,43 +1,13 @@
 #include "stable_s.h"
 
+#define tablem (table->m)
+#define tablen (table->n)
+#define tableht (table->hash_table)
+#define xnext (x->next)
+#define xkey (x->key)
+#define xval (x->val)
+
 /******************************************************************************/
-
-static Node *node_create(const char *key) {
-
-  Node *x = (Node*) malloc(sizeof(Node));
-
-  xkey = key;
-  xval.i = 0;
-  xnext = NULL;
-
-  return x;
-}
-
-static void node_destroy(Node *x) {
-    free(x);
-    x = NULL;
-}
-
-static Stack *stack_create() {
-    Stack *s = (Stack *) malloc(sizeof(Stack));
-    s->head = NULL;
-    return s;
-}
-
-static void stack_destroy(Stack *s) {
-    Node *next = NULL;
-    for (Node *x = s->head; x != NULL; x = next) {
-        next = xnext;
-        node_destroy(x);
-    }
-    free(s);
-    s = NULL;
-}
-
-static void stack_insert(Stack **s, Node **x) {
-    (*x)->next = (*s)->head;
-    (*s)->head = *x;
-}
 
 static unsigned long hash(const char* key, int M) {
 
@@ -56,7 +26,7 @@ static void rehash(SymbolTable table, const char *key, EntryData data) {
     int i = hash(key, tablem);
     Node *x = node_create(key);
     xval = data;
-    stack_insert(&tableht[i], &x);
+    node_insert(tableht[i], x);
 }
 
 static SymbolTable resize(SymbolTable table) {
@@ -65,10 +35,10 @@ static SymbolTable resize(SymbolTable table) {
   newtbl->n = tablen;
   int M = 2 * tablem;
   newtbl->m = M;
-  newtbl->hash_table = (Stack**) malloc(M * sizeof(Stack*));
+  newtbl->hash_table = (Node**) malloc(M * sizeof(Node*));
 
   for (int i = 0; i < tablem; i++) {
-    Node *x = tableht[i]->head;
+    Node *x = tableht[i];
     while (x != NULL) {
       rehash(newtbl, xkey, xval);
       x = xnext;
@@ -80,17 +50,38 @@ static SymbolTable resize(SymbolTable table) {
 
 /******************************************************************************/
 
+Node *node_create(const char *key) {
+
+  Node *x = (Node*) malloc(sizeof(Node));
+
+  xkey = strdup(key);
+  xval = (EntryData) {0};
+  xnext = NULL;
+
+  return x;
+}
+
+void node_destroy(Node *x) {
+    if (xnext != NULL) node_destroy(xnext);
+    free(x);
+    x = NULL;
+}
+
+void node_insert(Node *root, Node *x) {
+    xnext = root;
+    root = x;
+}
+
 SymbolTable stable_create() {
 
-  // SymbolTable table = {.n = 0,
-  //                      .m = 4, // capacidade inicial 4 seguindo exemplo do Sedgewick
-  //                      .hash_table = (Node**) malloc(tablem * sizeof(Node*))};
-  SymbolTable table = malloc(sizeof(SymbolTable));
-  table->n = 0;
-  table->m = 14;
-  table->hash_table = (Stack**) malloc(table->m * sizeof(Stack*));
-  for (int i = 0; i < table->m; i++) {
-    table->hash_table[i] = stack_create();
+  SymbolTable table = (SymbolTable) malloc(sizeof(SymbolTable));
+
+  tablen = 0;
+  tablem = 4;
+  tableht = (Node**) malloc(tablem * sizeof(Node*));
+
+  for (int i = 0; i < tablem; i++) {
+    tableht[i] = NULL;
   }
 
   return table;
@@ -98,8 +89,8 @@ SymbolTable stable_create() {
 
 void stable_destroy(SymbolTable table) {
 
-  for (int i = 0; i < table->m; i++) {
-    stack_destroy(tableht[i]);
+  for (int i = 0; i < tablem; i++) {
+    node_destroy(tableht[i]);
   }
   free(tableht);
   tableht = NULL;
@@ -109,10 +100,12 @@ InsertionResult stable_insert(SymbolTable table, const char *key) {
 
   InsertionResult res;
 
-  unsigned long i = hash(key, tablem);
   if (tablen >= 10*tablem)
     table = resize(table);
-  Node *x = tableht[i]->head;
+
+  unsigned long i = hash(key, tablem);
+  Node *x = tableht[i];
+
   while (x != NULL) {
     printf("%lu\n",i);
     if (xnext != NULL)
@@ -125,9 +118,10 @@ InsertionResult stable_insert(SymbolTable table, const char *key) {
     }
     x = xnext;
   }
+
   x = node_create(key);
   printf("new node: i = %lu key = %s xkey = %s\n",i, key, xkey);
-  stack_insert(&tableht[i], &x);
+  node_insert(tableht[i], x);
   res.new = 1;
   res.data = &xval;
   puts(xkey);
@@ -140,7 +134,7 @@ EntryData *stable_find(SymbolTable table, const char *key) {
 
   unsigned long i = hash(key, tablem);
 
-  Node *x = tableht[i]->head;
+  Node *x = tableht[i];
   while (x != NULL) {
     if (strcmp(xkey, key) == 0) {
       *ptr = xval;
@@ -154,13 +148,13 @@ EntryData *stable_find(SymbolTable table, const char *key) {
 int stable_visit(SymbolTable table, int (*visit)(const char *key, EntryData *data)) {
   int bool = 1;
   for (int i = 0; i < tablem; i++) {
-    Node *x = tableht[i]->head;
+    Node *x = tableht[i];
     while (x != NULL) {
       bool = visit(xkey, &xval);
       if (bool) {
         return 0;
       }
-      x = xnext;
+    x = xnext;
     }
   }
   return bool;
