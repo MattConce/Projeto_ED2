@@ -69,13 +69,20 @@ int main(int argc, char const *argv[]) {
 
     //InsertionResult *res = (InsertionResult*) malloc(sizeof(InsertionResult));
     InsertionResult res;
-    //printf("res from main address: [%p], data value: (%d)\n", &res, res.data);
+    //printf("res from main address: [%p], data \"value\": (%d)\n", &res, res.data);
     res = stable_insert(table, word);
-    //printf("(RESULT) res from main address: [%p], data value: (%d)\n", &res, res.data);
-    if (res.new == 0) res.data->i += 1;
+    //printf("(RESULT) res from main address: [%p], data \"value\": (%d)\n", &res, res.data);
+    if (res.new == 0) {
+      res.data->i++;
+      printf("int: %d, pointer: %p\n", res.data->i, &res.data->i);
+    }
     else {
-      int one = 1;
-      res.data->i = one;
+      int *one = malloc(sizeof(int));
+      //printf("*one addressed at [%p], points to [%p]\n", &one, one);
+      *one = 1;
+      //printf("*one addressed at [%p], points to [%p] (POST)\n", &one, one);
+      //printf("The value is... %d!\n", *one);
+      res.data->i = *one;
     }
     word = (char*) malloc(2048 * sizeof(char)); // achar outro memadress para prox. word
   }
@@ -83,17 +90,17 @@ int main(int argc, char const *argv[]) {
   // unit testing
   char *w = "apple";
   EntryData *d = stable_find(table, w);
-  printf("%d value for \"%s\", pointer is [%p] or [%p] (...?)\n", d->i, w, d->i, &d->i);
+  printf("%d value for \"%s\", pointer is [%p]\n", d->i, w, &d->i);
 
   w = "grape";
   d = stable_find(table, w);
-  printf("%d value for \"%s\", pointer is [%p] or [%p] (...?)\n", d->i, w, d->i, &d->i);
+  printf("%d value for \"%s\", pointer is [%p]\n", d->i, w, &d->i);
 
   w = "00000";
   d = stable_find(table, w);
-  printf("%d value for \"%s\", pointer is [%p] or [%p] (...?)\n", d->i, w, d->i, &d->i);
+  printf("%d value for \"%s\", pointer is [%p]\n", d->i, w, &d->i);
 
   w = "mango";
   d = stable_find(table, w);
-  printf("%d value for \"%s\", pointer is [%p] or [%p] (...?)\n", d->i, w, d->i, &d->i);
+  printf("%d value for \"%s\", pointer is [%p]\n", d->i, w, &d->i);
 }
