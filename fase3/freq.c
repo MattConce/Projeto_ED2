@@ -69,21 +69,31 @@ int main(int argc, char const *argv[]) {
 
     //InsertionResult *res = (InsertionResult*) malloc(sizeof(InsertionResult));
     InsertionResult res;
+    //printf("res from main address: [%p], data value: (%d)\n", &res, res.data);
     res = stable_insert(table, word);
-    if (res.new == 0) res.data->i = (res.data->i)++;
+    //printf("(RESULT) res from main address: [%p], data value: (%d)\n", &res, res.data);
+    if (res.new == 0) res.data->i += 1;
     else {
-      int *one = 1;
+      int one = 1;
       res.data->i = one;
     }
     word = (char*) malloc(2048 * sizeof(char)); // achar outro memadress para prox. word
   }
 
   // unit testing
-  char *w = "The";
+  char *w = "apple";
   EntryData *d = stable_find(table, w);
-  printf("%d value for %s, pointer is [%p]\n", d->i, w, d->i);
+  printf("%d value for \"%s\", pointer is [%p] or [%p] (...?)\n", d->i, w, d->i, &d->i);
 
-  w = "quick";
+  w = "grape";
   d = stable_find(table, w);
-  printf("%d value for %s, pointer is [%p]\n", d->i, w, d->i);
+  printf("%d value for \"%s\", pointer is [%p] or [%p] (...?)\n", d->i, w, d->i, &d->i);
+
+  w = "00000";
+  d = stable_find(table, w);
+  printf("%d value for \"%s\", pointer is [%p] or [%p] (...?)\n", d->i, w, d->i, &d->i);
+
+  w = "mango";
+  d = stable_find(table, w);
+  printf("%d value for \"%s\", pointer is [%p] or [%p] (...?)\n", d->i, w, d->i, &d->i);
 }

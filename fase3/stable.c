@@ -39,6 +39,7 @@ void stable_destroy(SymbolTable table) {
 
 InsertionResult stable_insert(SymbolTable table, const char *key) {
 
+  //InsertionResult res = (InsertionResult) malloc(sizeof(InsertionResult));
   InsertionResult res;
 
   unsigned long i = hash(key, tablem);
@@ -62,6 +63,7 @@ InsertionResult stable_insert(SymbolTable table, const char *key) {
   y->next = tableht[i];
   tableht[i] = y;
   tablen++;
+  //printf("ir in insert address: [%p], data value: (%d)\n", &res, res.data);
   return res;
 }
 
@@ -86,9 +88,9 @@ EntryData *stable_find(SymbolTable table, const char *key) {
   for (Node *x = tableht[i]; x != NULL; x = xnext) {
     if (xkey != NULL && strcmp(xkey, key) == 0) {
       ptr = xval;
+      //printf("evaluating %s, xval pointer is [%p], with int value (%d), returning ptr [%p]\n", key, xval, xval, ptr);
     }
   }
-
   return ptr;
 }
 
@@ -99,9 +101,6 @@ static Node* node_create() {
   xkey = NULL;
   xnext = NULL;
   xval = (EntryData*) malloc(sizeof(EntryData));
-  xval->i = 0;
-  xval->str = (char*) malloc(500 * sizeof(char));
-  xval->p = malloc(sizeof(void));
 
   return x;
 }
