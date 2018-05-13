@@ -6,6 +6,11 @@ static int compare (const void* s, const void* t) {
   return strcmp(p, q);
 }
 
+int print_visited_int(const char *key, EntryData *data) {
+  printf("%s %d\n", key, data->i);
+  return 1;
+}
+
 void read_words(FILE *input, SymbolTable table) {
   char c;
   char curr_word[MAX];
@@ -13,10 +18,11 @@ void read_words(FILE *input, SymbolTable table) {
   int i = 0;
   while(!feof(input)) {
      c = fgetc(input);
-
+    // elimina linhas e espaços entre palavras
     if (isspace(c) && !is_word) {
       continue;
     }
+    // palavra encontrada
     else if (isspace(c)) {
       curr_word[i++] = '\0';
       char *key = malloc(MAX*sizeof(char));
@@ -33,6 +39,7 @@ void read_words(FILE *input, SymbolTable table) {
       strcpy(curr_word, "");
       i = 0;
     }
+    // ainda dentro da palavra
     else {
       curr_word[i++] = c;
       is_word = TRUE;
@@ -52,6 +59,8 @@ int main(int argc, char const *argv[]) {
   char * s_array[tablen];
   int index = 0;
   int greatest = 0;
+  // achar a maior palavra na tabela
+  // e colocar todas as tabelas em um vetor para ordena-las
   for (int i = 0; i < tablem; i++) {
     Node *x = tableht[i];
     while (x != NULL) {
@@ -64,6 +73,7 @@ int main(int argc, char const *argv[]) {
       x = xnext;
     }
   }
+  // ordenação lexográfica
   qsort(s_array, table->n, sizeof(char*), compare);
   EntryData *data = malloc(sizeof(EntryData*));
   for (index = 0; index < tablen; index++) {
@@ -75,7 +85,9 @@ int main(int argc, char const *argv[]) {
     data = stable_find(table, s_array[index]);
     printf("%d\n",data->i);
   }
-
+  /* Descomente stable_visit para imprimir todo conteúdo da tabela*/
+  // int ok = stable_visit(table, print_visited_int);
+  // printf("%d\n", ok);
   fclose(input);
   return 0;
 }

@@ -12,5 +12,5 @@
 #define xval (x->val)
 
 
-
 void read_words(FILE*, SymbolTable);
+int print_visited_int(const char *, EntryData *);

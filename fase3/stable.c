@@ -151,10 +151,10 @@ EntryData *stable_find(SymbolTable table, const char *key) {
 int stable_visit(SymbolTable table, int (*visit)(const char *key, EntryData *data)) {
   int bool = 1;
   for (int i = 0; i < tablem; i++) {
-    Node *x = tableht[i];
+    Node *x = tableht[i]->next;
     while (x != NULL) {
       bool = visit(xkey, &xval);
-      if (bool) {
+      if (!bool) {
         return 0;
       }
     x = xnext;
