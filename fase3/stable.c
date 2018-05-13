@@ -82,7 +82,7 @@ SymbolTable stable_create() {
   tableht = (Node**) malloc(tablem * sizeof(Node*));
 
   for (int i = 0; i < tablem; i++) {
-    tableht[i] = node_create(NULL);
+    tableht[i] = node_create();
   }
 
   return table;

@@ -6,4 +6,4 @@
 #include "stable.h"
 
 
-void read_words(SymbolTable);
+void read_words(FILE*, SymbolTable);

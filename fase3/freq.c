@@ -1,12 +1,12 @@
 #include "freq.h"
 
-void read_words(SymbolTable table) {
+void read_words(FILE *input, SymbolTable table) {
   char c;
   char curr_word[MAX];
   int is_word = FALSE;
   int i = 0;
   while(TRUE) {
-    c = fgetc(stdin);
+    c = fgetc(input);
     if (isspace(c) && !is_word) {
       continue;
     }
@@ -27,6 +27,9 @@ void read_words(SymbolTable table) {
       strcpy(curr_word, "");
       i = 0;
       if (c == EOF) {
+        puts("ok");
+        fclose(input);
+        free(key);
         break;
       }
     }
@@ -35,10 +38,12 @@ void read_words(SymbolTable table) {
       is_word = TRUE;
     }
   }
+
 }
 
-int main() {
+int main(int argc, char const *argv[]) {
+  FILE *input = fopen(argv[1], "r");
   SymbolTable table = stable_create();
-  read_words(table);
-  return 1;
+  read_words(input, table);
+  return 0;
 }
