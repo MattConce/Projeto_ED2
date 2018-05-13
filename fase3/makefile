@@ -14,5 +14,5 @@ tar: $(src) $(hdr) makefile README.md
 	tar -cvzf $(folder).tgz $(folder)
 
 clean:
-	rm -rf *.o $(folder)*
+	rm -rf freq *.o $(folder)*
 	@echo "Cleanup complete!"
