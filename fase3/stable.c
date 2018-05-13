@@ -99,6 +99,8 @@ void stable_destroy(SymbolTable table) {
 
 InsertionResult stable_insert(SymbolTable table, const char *key) {
 
+  printf("Inserting key %s...\n", key);
+
   InsertionResult res;
 
   if (tablen >= 10*tablem)
@@ -116,6 +118,7 @@ InsertionResult stable_insert(SymbolTable table, const char *key) {
       // printf("%d\n",xval.i);
       res.new = 0;
       res.data = &xval;
+      printf("Finished inserting, m is %d, n is %d\n", table->m, table->n);
       return res;
     }
     x = xnext;
@@ -129,6 +132,7 @@ InsertionResult stable_insert(SymbolTable table, const char *key) {
   x->key = malloc(sizeof(char*));
   strcpy(xkey, key);
   tablen++;
+  printf("Finished inserting, m is %d, n is %d\n", table->m, table->n);
   return res;
 }
 
@@ -141,6 +145,7 @@ EntryData *stable_find(SymbolTable table, const char *key) {
   while (x != NULL) {
     if (xkey != NULL && strcmp(xkey, key) == 0) {
       ptr = &xval;
+      break;
     }
     x = xnext;
   }
