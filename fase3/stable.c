@@ -128,20 +128,19 @@ InsertionResult stable_insert(SymbolTable table, const char *key) {
   res.data = &xval;
   x->key = malloc(sizeof(char*));
   strcpy(xkey, key);
-  tablen++;  
+  tablen++;
   return res;
 }
 
 EntryData *stable_find(SymbolTable table, const char *key) {
 
   EntryData *ptr = NULL;
-
   unsigned long i = hash(key, tablem);
 
   Node *x = tableht[i];
   while (x != NULL) {
-    if (strcmp(xkey, key) == 0) {
-      *ptr = xval;
+    if (xkey != NULL && strcmp(xkey, key) == 0) {
+      ptr = &xval;
     }
     x = xnext;
   }

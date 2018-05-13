@@ -1,20 +1,23 @@
 #include "freq.h"
 
+static int compare (const void* s, const void* t) {
+  const char* p = *(const char**)s;
+  const char* q = *(const char**)t;
+  return strcmp(p, q);
+}
+
 void read_words(FILE *input, SymbolTable table) {
   char c;
   char curr_word[MAX];
   int is_word = FALSE;
   int i = 0;
-  int end = FALSE; // flag para o EOF
-  while(TRUE) {
-
-    if(feof(input)) end = TRUE;
-    else c = fgetc(input);
+  while(!feof(input)) {
+     c = fgetc(input);
 
     if (isspace(c) && !is_word) {
       continue;
     }
-    else if (isspace(c) || end) {
+    else if (isspace(c)) {
       curr_word[i++] = '\0';
       char *key = malloc(MAX*sizeof(char));
       strcpy(key, curr_word);
@@ -22,7 +25,7 @@ void read_words(FILE *input, SymbolTable table) {
       InsertionResult res = stable_insert(table, key);
       printf("Chave a ser inserida = %s\n", key);
       printf("\n");
-      if (res.new == 0) {
+      if (res.new == 0 ) {
         res.data->i++;
         printf("val depois da inserção = %d\n",res.data->i);
         printf("\n");
@@ -34,10 +37,6 @@ void read_words(FILE *input, SymbolTable table) {
       is_word = FALSE;
       strcpy(curr_word, "");
       i = 0;
-      if (end) {
-        puts("ok");
-        break;
-      }
     }
     else {
       curr_word[i++] = c;
@@ -55,6 +54,24 @@ int main(int argc, char const *argv[]) {
   }
   SymbolTable table = stable_create();
   read_words(input, table);
+  char * s_array[tablen];
+  int index = 0;
+  for (int i = 0; i < tablem; i++) {
+    Node *x = tableht[i];
+    while (x != NULL) {
+      if (xkey != NULL){
+        s_array[index++] = xkey;
+      }
+      x = xnext;
+    }
+  }
+  qsort(s_array, table->n, sizeof(char*), compare);
+  EntryData *data = malloc(sizeof(EntryData*));
+  for (index = 0; index < tablen; index++) {
+    data = stable_find(table, s_array[index]);
+    printf("key = %s val = %d\n", s_array[index], data->i);
+  }
+
   fclose(input);
   return 0;
 }
