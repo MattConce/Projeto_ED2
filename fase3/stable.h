@@ -1,4 +1,4 @@
-/*
+  /*
   stable.h
 
   A symbol table associating generic data to strings.
