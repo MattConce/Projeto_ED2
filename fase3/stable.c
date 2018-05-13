@@ -50,13 +50,12 @@ static SymbolTable resize(SymbolTable table) {
 
 /******************************************************************************/
 
-Node *node_create(const char *key) {
+Node *node_create() {
 
-  Node *x = (Node*) malloc(sizeof(Node));
-
-  xkey = strdup(key);
-  xval = (EntryData) {0};
-  xnext = NULL;
+  Node *x = (Node*) malloc(sizeof(Node*));
+  x->key = NULL;
+  x->val = (EntryData) malloc(sizeof(EntryData));
+  x->next = NULL;
 
   return x;
 }
@@ -70,8 +69,8 @@ void node_destroy(Node *x) {
 }
 
 void node_insert(Node *root, Node *x) {
-    xnext = root;
-    root = x;
+    xnext = root->next;
+    root->next = x;
 }
 
 SymbolTable stable_create() {
@@ -83,7 +82,7 @@ SymbolTable stable_create() {
   tableht = (Node**) malloc(tablem * sizeof(Node*));
 
   for (int i = 0; i < tablem; i++) {
-    tableht[i] = NULL;
+    tableht[i] = node_create(NULL);
   }
 
   return table;
@@ -109,11 +108,12 @@ InsertionResult stable_insert(SymbolTable table, const char *key) {
   Node *x = tableht[i];
 
   while (x != NULL) {
-    printf("%lu\n",i);
-    if (xnext != NULL)
-        printf("next key = %s\n", xnext->key);
+    //printf("%lu\n",i);
+    // if (xnext != NULL)
+    //     printf("next key = %s\n", xnext->key);
     if (xkey != NULL && strcmp(xkey, key) == 0) {
       printf("i = %lu key = %s xkey = %s\n",i, key, xkey);
+      printf("%d\n",xval.i);
       res.new = 0;
       res.data = &xval;
       return res;
@@ -122,11 +122,14 @@ InsertionResult stable_insert(SymbolTable table, const char *key) {
   }
 
   x = node_create(key);
-  printf("new node: i = %lu key = %s xkey = %s\n",i, key, xkey);
+  //printf("new node: i = %lu key = %s xkey = %s\n",i, key, xkey);
   node_insert(tableht[i], x);
   res.new = 1;
   res.data = &xval;
-  puts(xkey);
+  x->key = malloc(sizeof(char*));
+  strcpy(xkey, key);
+  tablen++;
+  puts("<-------------->");
   return res;
 }
 

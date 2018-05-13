@@ -24,6 +24,6 @@ typedef struct stable_s {
 } stable_s;
 
 
-Node *node_create(const char *key) ;
+Node *node_create() ;
 void node_destroy(Node *x);
 void node_insert(Node *root, Node *x);
