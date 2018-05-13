@@ -59,9 +59,14 @@
 //   }
 // }
 
-int print_visited_int(const char *key, EntryData *data) {
+int word_length(const char *key, EntryData *data) {
+  int size = strlen(key);
+  return size;
+}
+
+int print_key_int(const char *key, EntryData *data) {
   printf("%s %d\n", key, data->i);
-  return 1;
+  return strlen(key);
 }
 
 int main(int argc, char const *argv[]) {
@@ -87,6 +92,6 @@ int main(int argc, char const *argv[]) {
     word = (char*) malloc(2048 * sizeof(char)); // achar outro memadress para prox. word
   }
 
-  int test = stable_visit(table, print_visited_int);
-  printf("returned %d", test);
+  int test = stable_visit(table, print_key_int);
+  printf("returned %d\n", test);
 }

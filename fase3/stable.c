@@ -154,15 +154,17 @@ static void rehash(SymbolTable table,  char *key, EntryData data) {
 }
 
 int stable_visit(SymbolTable table, int (*visit)(const char *key, EntryData *data)) {
-  int bool = 0;
+  int ret = 0;
+  int greatest = 0;
   for (int i = 0; i < tablem; i++) {
     // [xnext != NULL] em vez de [x != NULL] meio gambiarra, ver direito depois
     for (Node *x = tableht[i]; xnext != NULL; x = xnext) {
-      bool = visit(xkey, xval);
-      if (!bool) {
+      ret = visit(xkey, xval);
+      if (ret == 0) {
         return 0;
       }
+      if (ret > greatest) greatest = ret;
     }
   }
-  return bool;
+  return greatest;
 }
