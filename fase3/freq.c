@@ -11,6 +11,15 @@ static int compare (const void* s, const void* t) {
   return strcmp(p, q);
 }
 
+typedef struct {
+  char *word;
+  struct SLNode *next;
+} SLNode;
+
+typedef struct {
+  SLNode *first;
+} StrLinkedList;
+
 // funções visit não utilizadas nessa versão
 
 /*int print_key_int_spaced(const char *key, EntryData *data) {
@@ -26,13 +35,18 @@ int print_key_int(const char *key, EntryData *data) {
 int main(int argc, char const *argv[]) {
 
   // abrindo um pipe no qual imprimiremos todas as palavras
-  int fd[2];
+  /*int fd[2];
   pipe(fd);
   FILE *write = fdopen(fd[1], "w");
-  FILE *read = fdopen(fd[0], "r");
+  FILE *read = fdopen(fd[0], "r");*/
 
   FILE *in = fopen(argv[1], "r");
   char *word = (char*) malloc(1000 * sizeof(char));
+
+  // inicialização da linked list
+  StrLinkedList unique_words;
+  unique_words.first = NULL;
+
   SymbolTable table = stable_create();
   // tamanho da maior palavra, alterado conforme lemos cada uma delas
   int greatest = 0;
@@ -46,15 +60,21 @@ int main(int argc, char const *argv[]) {
     if (res.new == 0) res.data->i++;
     else {
       res.data->i = 1;
+
+      SLNode *sl_node = (SLNode*) malloc(sizeof(SLNode));
+      sl_node->word = word;
+      sl_node->next = unique_words.first;
+      unique_words.first = sl_node;
+
       // imprimir palavras novas no pipe
-      fprintf(write, "%s ", word);
+      //fprintf(write, "%s ", word);
     }
     word = (char*) malloc(1000 * sizeof(char)); // achar outro memadress para prox. word
   }
 
-  fclose(write);
+  //fclose(write);
 
-  char *entry = (char*) malloc(1000 * sizeof(char));
+  /*char *entry = (char*) malloc(1000 * sizeof(char));
   char *s_array[table->n];
   int index = 0;
 
@@ -84,5 +104,5 @@ int main(int argc, char const *argv[]) {
   }
 
   //int test = stable_visit(table, print_key_int_spaced);
-  //printf("returned %d\n", test);
+  //printf("returned %d\n", test);*/
 }
