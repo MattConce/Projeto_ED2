@@ -2,6 +2,10 @@
 apple apple apple apple apple
 grape grape grape
 
+banana
+
+watermelon
+
 melon melon melon melon melon melon melon melon
 mango mango mango mango mango mango mango mango mango mango
 
