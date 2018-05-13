@@ -23,13 +23,8 @@ void read_words(FILE *input, SymbolTable table) {
       strcpy(key, curr_word);
       key = curr_word;
       InsertionResult res = stable_insert(table, key);
-      printf("Chave a ser inserida = %s\n", key);
-      printf("\n");
       if (res.new == 0 ) {
         res.data->i++;
-        printf("val depois da inserção = %d\n",res.data->i);
-        printf("\n");
-        printf("\n");
       }
       else {
         res.data->i = 1;
@@ -56,10 +51,14 @@ int main(int argc, char const *argv[]) {
   read_words(input, table);
   char * s_array[tablen];
   int index = 0;
+  int greatest = 0;
   for (int i = 0; i < tablem; i++) {
     Node *x = tableht[i];
     while (x != NULL) {
       if (xkey != NULL){
+        int size = strlen(xkey);
+        if (size > greatest)
+          greatest = size;
         s_array[index++] = xkey;
       }
       x = xnext;
@@ -68,8 +67,13 @@ int main(int argc, char const *argv[]) {
   qsort(s_array, table->n, sizeof(char*), compare);
   EntryData *data = malloc(sizeof(EntryData*));
   for (index = 0; index < tablen; index++) {
+    printf("%s",s_array[index]);
+    // imprime os espaçoes necessários
+    for (int sp = strlen(s_array[index]); sp < greatest+1; sp++)
+      printf(" ");
+
     data = stable_find(table, s_array[index]);
-    printf("key = %s val = %d\n", s_array[index], data->i);
+    printf("%d\n",data->i);
   }
 
   fclose(input);
