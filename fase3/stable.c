@@ -14,9 +14,6 @@
 
 SymbolTable stable_create() {
 
-  // SymbolTable table = {.n = 0,
-  //                      .m = 4, // capacidade inicial 4 seguindo exemplo do Sedgewick
-  //                      .hash_table = (Node**) malloc(tablem * sizeof(Node*))};
   SymbolTable table = malloc(sizeof(SymbolTable));
   table->n = 0;
   table->m = 4;
@@ -39,7 +36,6 @@ void stable_destroy(SymbolTable table) {
 
 InsertionResult stable_insert(SymbolTable table, const char *key) {
 
-  //InsertionResult res = (InsertionResult) malloc(sizeof(InsertionResult));
   InsertionResult res;
 
   unsigned long i = hash(key, tablem);
@@ -50,7 +46,6 @@ InsertionResult stable_insert(SymbolTable table, const char *key) {
     if (xkey != NULL && strcmp(xkey, key) == 0) {
       res.new = 0;
       res.data = xval;
-      //printf("res.data is %p for %s\n", res.data, key);
       return res;
     }
   }
@@ -58,19 +53,16 @@ InsertionResult stable_insert(SymbolTable table, const char *key) {
   y = node_create();
   res.new = 1;
   res.data = y->val;
-  //printf("res.data is %p for %s\n", res.data, key);
   y->key = key;
   y->next = tableht[i];
   tableht[i] = y;
   tablen++;
-  //printf("ir in insert address: [%p], data value: (%d)\n", &res, res.data);
-  //printf("hash: %d, key inserted: \"%s\", next points to [%p]\n", i, key, y->next);
   return res;
 }
 
 EntryData *stable_find(SymbolTable table, const char *key) {
 
-  // verificar todos os elementos da tabela
+  // descomentar para verificar todos os elementos da tabela
   /*Node *test;
   int j = 0;
   while (j < tablem) {
@@ -90,7 +82,6 @@ EntryData *stable_find(SymbolTable table, const char *key) {
     if (xkey != NULL && strcmp(xkey, key) == 0) {
       ptr = xval;
       break;
-      //printf("evaluating %s, xval pointer is [%p], with int value (%d), returning ptr [%p]\n", key, xval, xval, ptr);
     }
   }
   return ptr;
@@ -103,7 +94,6 @@ static Node* node_create() {
   xkey = NULL;
   xnext = NULL;
   xval = (EntryData*) malloc(sizeof(EntryData));
-  //xval->i = 0;
 
   return x;
 }
