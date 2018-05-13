@@ -112,8 +112,8 @@ InsertionResult stable_insert(SymbolTable table, const char *key) {
     // if (xnext != NULL)
     //     printf("next key = %s\n", xnext->key);
     if (xkey != NULL && strcmp(xkey, key) == 0) {
-      printf("i = %lu key = %s xkey = %s\n",i, key, xkey);
-      printf("%d\n",xval.i);
+      // printf("i = %lu key = %s xkey = %s\n",i, key, xkey);
+      // printf("%d\n",xval.i);
       res.new = 0;
       res.data = &xval;
       return res;
@@ -128,8 +128,7 @@ InsertionResult stable_insert(SymbolTable table, const char *key) {
   res.data = &xval;
   x->key = malloc(sizeof(char*));
   strcpy(xkey, key);
-  tablen++;
-  puts("<-------------->");
+  tablen++;  
   return res;
 }
 
