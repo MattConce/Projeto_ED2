@@ -23,6 +23,10 @@ Node *node_create() {
   x->key = NULL;
   x->val = (EntryData) malloc(sizeof(EntryData));
   x->next = NULL;
+  if (x == NULL) {
+    perror("Memory allocation error");
+    abort();
+  }
 
   return x;
 }
@@ -43,7 +47,7 @@ void node_insert(Node *root, Node *x) {
 SymbolTable stable_create() {
   SymbolTable table = (SymbolTable) malloc(sizeof(SymbolTable));
   tablen = 0;
-  tablem = 1600;
+  tablem = 800;
   tableht = (Node**) malloc(tablem * sizeof(Node*));
 
   for (int i = 0; i < tablem; i++) {
@@ -80,6 +84,10 @@ InsertionResult stable_insert(SymbolTable table, const char *key) {
   res.new = 1;
   res.data = &xval;
   x->key = malloc(MAX*sizeof(char*));
+  if (x->key == NULL) {
+    perror("Memory allocation error");
+    abort();
+  }
   strcpy(xkey, key);
   tablen++;
 
