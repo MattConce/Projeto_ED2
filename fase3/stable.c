@@ -8,7 +8,6 @@
 #define xval (x->val)
 
 static unsigned long hash(const char* key, int M) {
-
   unsigned long hash = 5381;
   int c;
 
@@ -20,7 +19,6 @@ static unsigned long hash(const char* key, int M) {
 }
 
 Node *node_create() {
-
   Node *x = (Node*) malloc(sizeof(Node*));
   x->key = NULL;
   x->val = (EntryData) malloc(sizeof(EntryData));
@@ -43,11 +41,9 @@ void node_insert(Node *root, Node *x) {
 }
 
 SymbolTable stable_create() {
-
   SymbolTable table = (SymbolTable) malloc(sizeof(SymbolTable));
-
   tablen = 0;
-  tablem = 3200;
+  tablem = 1600;
   tableht = (Node**) malloc(tablem * sizeof(Node*));
 
   for (int i = 0; i < tablem; i++) {
@@ -58,7 +54,6 @@ SymbolTable stable_create() {
 }
 
 void stable_destroy(SymbolTable table) {
-
   for (int i = 0; i < tablem; i++) {
     node_destroy(tableht[i]);
   }
@@ -67,9 +62,7 @@ void stable_destroy(SymbolTable table) {
 }
 
 InsertionResult stable_insert(SymbolTable table, const char *key) {
-
   InsertionResult res;
-
   unsigned long i = hash(key, tablem);
   Node *x = tableht[i];
 
@@ -82,22 +75,22 @@ InsertionResult stable_insert(SymbolTable table, const char *key) {
     x = xnext;
   }
 
-  x = node_create(key);
+  x = node_create();
   node_insert(tableht[i], x);
   res.new = 1;
   res.data = &xval;
-  x->key = malloc(sizeof(char*));
+  x->key = malloc(MAX*sizeof(char*));
   strcpy(xkey, key);
   tablen++;
+
   return res;
 }
 
 EntryData *stable_find(SymbolTable table, const char *key) {
-
   EntryData *ptr = NULL;
   unsigned long i = hash(key, tablem);
-
   Node *x = tableht[i];
+
   while (x != NULL) {
     if (xkey != NULL && strcmp(xkey, key) == 0) {
       ptr = &xval;
@@ -114,12 +107,13 @@ int stable_visit(SymbolTable table, int (*visit)(const char *key, EntryData *dat
   for (int i = 0; i < tablem; i++) {
     Node *x = tableht[i]->next;
     while (x != NULL) {
-      bool += visit(xkey, &xval);
+      bool = visit(xkey, &xval);
       if (!bool) {
         return 0;
       }
     x = xnext;
     }
   }
+
   return bool;
 }

@@ -86,8 +86,9 @@ int main(int argc, char const *argv[]) {
     printf("%d\n",data->i);
   }
   /* Descomente stable_visit para imprimir todo conteúdo da tabela*/
-  // int ok = stable_visit(table, print_visited_int);
-  // printf("%d\n", ok);
+  //int ok = stable_visit(table, print_visited_int);
+  //printf("%d\n", ok);
+
   fclose(input);
   return 0;
 }
