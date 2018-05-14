@@ -11,4 +11,6 @@ mango mango mango mango mango mango mango mango mango mango
 
 kiwi! kiwi! kiwi! kiwi! kiwi! kiwi!
 
-123456789012345678901234
+12345678901234567890123
+
+thisisawordwithalengthof26
